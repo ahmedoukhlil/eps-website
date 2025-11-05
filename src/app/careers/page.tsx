@@ -1,0 +1,736 @@
+'use client';
+
+import React, { useState } from 'react';
+import Link from 'next/link';
+import { ScrollAnimateWrapper } from '@/components/ScrollAnimateWrapper';
+import { ParticlesBackground } from '@/components/ParticlesBackground';
+import { useParallax } from '@/hooks/useParallax';
+
+const jobOffers = [
+  {
+    id: 1,
+    title: 'Technicien de Nettoyage Spécialisé',
+    department: 'Opérations',
+    location: 'Nouakchott',
+    type: 'CDI',
+    experience: '2-3 ans',
+    salary: 'Selon expérience',
+    description: 'Nous recherchons un technicien expérimenté pour rejoindre notre équipe de nettoyage spécialisé.',
+    requirements: [
+      'Expérience minimum 2 ans dans le nettoyage professionnel',
+      'Connaissance des produits et techniques de nettoyage',
+      'Capacité à travailler en équipe',
+      'Disponibilité pour horaires flexibles',
+      'Permis de conduire souhaité'
+    ],
+    responsibilities: [
+      'Effectuer les opérations de nettoyage selon les procédures',
+      'Utiliser les équipements et produits appropriés',
+      'Respecter les normes de sécurité et d\'hygiène',
+      'Contrôler la qualité du travail effectué',
+      'Rendre compte à sa hiérarchie'
+    ],
+    benefits: [
+      'Formation continue',
+      'Équipements fournis',
+      'Assurance santé',
+      'Prime de performance',
+      'Évolution de carrière'
+    ],
+    urgent: false,
+    posted: '2023-12-10'
+  },
+  {
+    id: 2,
+    title: 'Responsable Commercial',
+    department: 'Commercial',
+    location: 'Nouakchott',
+    type: 'CDI',
+    experience: '3-5 ans',
+    salary: '150 000 - 200 000 MRU',
+    description: 'Poste stratégique pour développer notre portefeuille clients et nos ventes.',
+    requirements: [
+      'Formation commerciale ou équivalent',
+      'Expérience réussie en vente B2B',
+      'Excellentes capacités relationnelles',
+      'Maîtrise du français et de l\'arabe',
+      'Connaissance du marché mauritanien'
+    ],
+    responsibilities: [
+      'Développer le portefeuille clients',
+      'Négocier et conclure les contrats',
+      'Assurer le suivi client',
+      'Participer aux salons et événements',
+      'Atteindre les objectifs de vente'
+    ],
+    benefits: [
+      'Salaire attractif + commissions',
+      'Véhicule de fonction',
+      'Formation commerciale',
+      'Évolution rapide',
+      'Environnement dynamique'
+    ],
+    urgent: true,
+    posted: '2023-12-08'
+  },
+  {
+    id: 3,
+    title: 'Spécialiste Lutte Antiparasitaire',
+    department: 'Technique',
+    location: 'Nouakchott / Nouadhibou',
+    type: 'CDI',
+    experience: '1-2 ans',
+    salary: 'Selon profil',
+    description: 'Rejoignez notre équipe technique spécialisée dans la lutte antiparasitaire.',
+    requirements: [
+      'Formation en biologie, chimie ou équivalent',
+      'Connaissance des produits phytosanitaires',
+      'Rigueur et respect des procédures',
+      'Capacité d\'adaptation',
+      'Permis de conduire obligatoire'
+    ],
+    responsibilities: [
+      'Réaliser les diagnostics parasitaires',
+      'Appliquer les traitements appropriés',
+      'Conseiller les clients',
+      'Assurer le suivi des interventions',
+      'Respecter la réglementation'
+    ],
+    benefits: [
+      'Formation spécialisée',
+      'Certification professionnelle',
+      'Matériel professionnel',
+      'Déplacements payés',
+      'Évolution technique'
+    ],
+    urgent: false,
+    posted: '2023-12-05'
+  },
+  {
+    id: 4,
+    title: 'Graphiste / Designer',
+    department: 'Communication',
+    location: 'Nouakchott',
+    type: 'CDI',
+    experience: '2-4 ans',
+    salary: '120 000 - 150 000 MRU',
+    description: 'Créatif(ve) pour notre département communication et événementiel.',
+    requirements: [
+      'Formation en design graphique',
+      'Maîtrise Adobe Creative Suite',
+      'Portfolio créatif démontrable',
+      'Sens artistique développé',
+      'Capacité à travailler sous pression'
+    ],
+    responsibilities: [
+      'Créer supports de communication',
+      'Concevoir stands d\'exposition',
+      'Réaliser impressions numériques',
+      'Participer aux projets événementiels',
+      'Maintenir l\'identité visuelle'
+    ],
+    benefits: [
+      'Environnement créatif',
+      'Projets variés',
+      'Matériel professionnel',
+      'Formation continue',
+      'Reconnaissance du travail'
+    ],
+    urgent: false,
+    posted: '2023-12-01'
+  },
+  {
+    id: 5,
+    title: 'Superviseur d\'Équipe',
+    department: 'Management',
+    location: 'Nouakchott',
+    type: 'CDI',
+    experience: '15+ ans',
+    salary: '180 000 - 220 000 MRU',
+    description: 'Poste de management pour encadrer nos équipes opérationnelles.',
+    requirements: [
+      'Expérience significative en management',
+      'Leadership et capacités d\'encadrement',
+      'Connaissance secteur nettoyage',
+      'Excellente communication',
+      'Disponibilité et mobilité'
+    ],
+    responsibilities: [
+      'Encadrer les équipes terrain',
+      'Planifier les interventions',
+      'Contrôler la qualité',
+      'Former les nouveaux collaborateurs',
+      'Assurer la relation client'
+    ],
+    benefits: [
+      'Poste à responsabilités',
+      'Salaire évolutif',
+      'Formation management',
+      'Véhicule de service',
+      'Évolution vers direction'
+    ],
+    urgent: true,
+    posted: '2023-11-28'
+  },
+  {
+    id: 6,
+    title: 'Assistant(e) Administrative',
+    department: 'Administration',
+    location: 'Nouakchott',
+    type: 'CDI',
+    experience: '1-3 ans',
+    salary: '80 000 - 100 000 MRU',
+    description: 'Support administratif pour nos équipes opérationnelles.',
+    requirements: [
+      'Formation administrative ou équivalent',
+      'Maîtrise outils bureautiques',
+      'Rigueur et organisation',
+      'Discrétion professionnelle',
+      'Langues : français, arabe'
+    ],
+    responsibilities: [
+      'Gestion administrative courante',
+      'Accueil téléphonique',
+      'Suivi des dossiers clients',
+      'Préparation des documents',
+      'Support aux équipes'
+    ],
+    benefits: [
+      'Environnement stable',
+      'Horaires réguliers',
+      'Formation bureautique',
+      'Évolution interne',
+      'Ambiance conviviale'
+    ],
+    urgent: false,
+    posted: '2023-11-25'
+  }
+];
+
+const departments = [
+  { name: 'Tous', value: 'all', count: jobOffers.length, icon: '💼' },
+  { name: 'Opérations', value: 'Opérations', count: jobOffers.filter(j => j.department === 'Opérations').length, icon: '🔧' },
+  { name: 'Commercial', value: 'Commercial', count: jobOffers.filter(j => j.department === 'Commercial').length, icon: '📈' },
+  { name: 'Technique', value: 'Technique', count: jobOffers.filter(j => j.department === 'Technique').length, icon: '🔬' },
+  { name: 'Communication', value: 'Communication', count: jobOffers.filter(j => j.department === 'Communication').length, icon: '🎨' },
+  { name: 'Management', value: 'Management', count: jobOffers.filter(j => j.department === 'Management').length, icon: '👥' },
+  { name: 'Administration', value: 'Administration', count: jobOffers.filter(j => j.department === 'Administration').length, icon: '📋' }
+];
+
+const benefits = [
+  {
+    title: 'Formation Continue',
+    description: 'Développement des compétences et certifications professionnelles',
+    icon: '🎓',
+    color: 'from-blue-500 to-blue-600'
+  },
+  {
+    title: 'Évolution de Carrière',
+    description: 'Opportunités d\'avancement et de promotion interne',
+    icon: '📈',
+    color: 'from-green-500 to-green-600'
+  },
+  {
+    title: 'Équilibre Vie Pro/Perso',
+    description: 'Horaires flexibles et respect du temps personnel',
+    icon: '⚖️',
+    color: 'from-purple-500 to-purple-600'
+  },
+  {
+    title: 'Rémunération Attractive',
+    description: 'Salaires compétitifs et primes de performance',
+    icon: '💰',
+    color: 'from-yellow-500 to-orange-500'
+  },
+  {
+    title: 'Environnement Moderne',
+    description: 'Outils et équipements de dernière génération',
+    icon: '🏢',
+    color: 'from-indigo-500 to-indigo-600'
+  },
+  {
+    title: 'Esprit d\'Équipe',
+    description: 'Ambiance collaborative et esprit d\'entraide',
+    icon: '🤝',
+    color: 'from-teal-500 to-teal-600'
+  }
+];
+
+export default function CareersPage() {
+  const [selectedDepartment, setSelectedDepartment] = useState('all');
+  const [selectedJob, setSelectedJob] = useState<typeof jobOffers[0] | null>(null);
+
+  const parallax1 = useParallax({ speed: 0.3, direction: 'up' });
+  const parallax2 = useParallax({ speed: 0.4, direction: 'down' });
+
+  const filteredJobs = selectedDepartment === 'all' 
+    ? jobOffers 
+    : jobOffers.filter(job => job.department === selectedDepartment);
+
+  const urgentJobs = jobOffers.filter(job => job.urgent);
+
+  return (
+    <main className="min-h-screen">
+      {/* Hero Section */}
+      <section className="relative bg-gradient-to-br from-blue-600 via-blue-700 to-blue-900 text-white py-32 overflow-hidden">
+        <ParticlesBackground particleCount={30} color="rgba(255, 255, 255, 0.4)" speed={0.3} />
+
+        {/* Decorative Elements */}
+        <div className="absolute inset-0 opacity-10">
+          <div
+            ref={parallax1.elementRef}
+            className="absolute top-20 left-20 w-96 h-96 bg-white rounded-full blur-3xl animate-blob"
+            style={{
+              transform: `translate(${parallax1.offset.x}px, ${parallax1.offset.y}px) rotate(${parallax1.offset.rotation}deg) scale(${parallax1.offset.scaleValue})`
+            }}
+          ></div>
+          <div
+            ref={parallax2.elementRef}
+            className="absolute bottom-20 right-20 w-96 h-96 bg-white rounded-full blur-3xl animate-blob animation-delay-2000"
+            style={{
+              transform: `translate(${parallax2.offset.x}px, ${parallax2.offset.y}px) rotate(${parallax2.offset.rotation}deg) scale(${parallax2.offset.scaleValue})`
+            }}
+          ></div>
+        </div>
+
+        {/* Subtle grid pattern */}
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDM0djItaDJWMzZoLTJ6bTAtNGgydjJoLTJ2LTJ6bTAgNGgydjJoLTJ2LTJ6Ii8+PC9nPjwvZz48L3N2Zz4=')] opacity-30"></div>
+
+        <div className="container-custom relative z-10">
+          <ScrollAnimateWrapper animation="bounceIn" className="text-center mb-6">
+            <div className="inline-flex items-center gap-1.5 bg-black/40 backdrop-blur-md border border-white/40 rounded-full px-4 py-2 shadow-2xl">
+              <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse shadow-lg"></span>
+              <span className="text-white text-xs font-medium drop-shadow-lg">Rejoignez Notre Équipe</span>
+            </div>
+          </ScrollAnimateWrapper>
+
+          <ScrollAnimateWrapper animation="revealUp" className="text-center">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-black text-white leading-tight mb-4">
+              <span className="drop-shadow-2xl text-shadow-lg">Carrières</span>
+            </h1>
+
+            <ScrollAnimateWrapper animation="fadeInUp" delay="stagger-2" className="mb-8">
+              <div className="bg-black/20 backdrop-blur-sm rounded-xl px-6 py-4 max-w-3xl mx-auto border border-white/20">
+                <p className="text-base md:text-lg text-white font-medium leading-relaxed drop-shadow-xl">
+                  Construisez votre <span className="text-yellow-400 font-semibold">avenir professionnel</span> avec EPS.
+                  Découvrez nos opportunités d'emploi et rejoignez une équipe dynamique et innovante
+                </p>
+              </div>
+            </ScrollAnimateWrapper>
+
+            <ScrollAnimateWrapper animation="zoomRotateIn" delay="stagger-3">
+              <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                <a
+                  href="#offres"
+                  className="inline-flex items-center justify-center bg-white text-blue-600 hover:bg-blue-50 font-semibold py-3 px-6 rounded-lg transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-1 group border-2 border-white text-sm"
+                >
+                  <span className="drop-shadow-sm">Voir les offres</span>
+                  <svg className="w-4 h-4 ml-1.5 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  </svg>
+                </a>
+                <a
+                  href="#spontanee"
+                  className="inline-flex items-center justify-center border-2 border-white bg-black/30 backdrop-blur-md text-white hover:bg-white hover:text-blue-600 font-semibold py-3 px-6 rounded-lg transition-all duration-300 group shadow-xl hover:shadow-2xl transform hover:-translate-y-1 text-sm"
+                >
+                  <span className="drop-shadow-lg">Candidature spontanée</span>
+                  <svg className="w-4 h-4 ml-1.5 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  </svg>
+                </a>
+              </div>
+            </ScrollAnimateWrapper>
+          </ScrollAnimateWrapper>
+        </div>
+
+        {/* Wave separator */}
+        <div className="absolute bottom-0 left-0 right-0 z-20">
+          <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto drop-shadow-lg">
+            <path d="M0 120L60 110C120 100 240 80 360 70C480 60 600 60 720 65C840 70 960 80 1080 85C1200 90 1320 90 1380 90L1440 90V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="white"/>
+          </svg>
+        </div>
+      </section>
+
+      {/* Company Benefits */}
+      <section className="py-24 bg-white">
+        <div className="container-custom">
+          <ScrollAnimateWrapper animation="revealUp" className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-6">
+              Pourquoi Nous Rejoindre ?
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              EPS offre un environnement de travail stimulant avec de nombreux avantages
+            </p>
+          </ScrollAnimateWrapper>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {benefits.map((benefit, index) => (
+              <ScrollAnimateWrapper 
+                key={benefit.title}
+                animation="bounceIn"
+                delay={`stagger-${(index % 3) + 1}`}
+                className="text-center group"
+              >
+                <div className="bg-gradient-to-br from-gray-50 to-indigo-50 rounded-2xl p-8 hover:shadow-lg transition-all duration-300 group-hover:-translate-y-2">
+                  <div className={`w-16 h-16 bg-gradient-to-br ${benefit.color} rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                    <span className="text-2xl">{benefit.icon}</span>
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-4">{benefit.title}</h3>
+                  <p className="text-gray-600 leading-relaxed">{benefit.description}</p>
+                </div>
+              </ScrollAnimateWrapper>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Urgent Jobs */}
+      {urgentJobs.length > 0 && (
+        <section className="py-24 bg-gradient-to-br from-red-50 to-orange-50">
+          <div className="container-custom">
+            <ScrollAnimateWrapper animation="revealUp" className="text-center mb-16">
+              <div className="inline-flex items-center gap-2 bg-red-100 text-red-800 px-4 py-2 rounded-full mb-4">
+                <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
+                <span className="text-sm font-bold">RECRUTEMENT URGENT</span>
+              </div>
+              <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-6">
+                Postes à Pourvoir Rapidement
+              </h2>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                Ces postes nécessitent un recrutement immédiat
+              </p>
+            </ScrollAnimateWrapper>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {urgentJobs.map((job, index) => (
+                <ScrollAnimateWrapper 
+                  key={job.id}
+                  animation={index % 2 === 0 ? 'slideInLeft' : 'slideInRight'}
+                  className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group cursor-pointer border-l-4 border-red-500"
+                  onClick={() => setSelectedJob(job)}
+                >
+                  <div className="p-8">
+                    <div className="flex items-start justify-between mb-4">
+                      <div>
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="bg-red-100 text-red-800 px-2 py-1 rounded-full text-xs font-bold">
+                            URGENT
+                          </span>
+                          <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded-full text-xs">
+                            {job.department}
+                          </span>
+                        </div>
+                        <h3 className="text-2xl font-bold text-gray-900 mb-2 group-hover:text-indigo-600 transition-colors">
+                          {job.title}
+                        </h3>
+                        <div className="flex items-center gap-4 text-sm text-gray-500">
+                          <span className="flex items-center gap-1">
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                            </svg>
+                            {job.location}
+                          </span>
+                          <span>{job.type}</span>
+                          <span>{job.experience}</span>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <p className="text-gray-600 mb-6 leading-relaxed">{job.description}</p>
+                    
+                    <div className="flex items-center justify-between">
+                      <span className="text-lg font-bold text-indigo-600">{job.salary}</span>
+                      <button className="bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 text-white font-bold py-3 px-6 rounded-xl transition-all duration-300 transform hover:-translate-y-1">
+                        Postuler Maintenant
+                      </button>
+                    </div>
+                  </div>
+                </ScrollAnimateWrapper>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Filter Section */}
+      <section id="offres" className="py-12 bg-gray-50">
+        <div className="container-custom">
+          <ScrollAnimateWrapper animation="fadeIn">
+            <div className="flex flex-wrap justify-center gap-4">
+              {departments.map((dept) => (
+                <button
+                  key={dept.value}
+                  onClick={() => setSelectedDepartment(dept.value)}
+                  className={`flex items-center gap-2 px-6 py-3 rounded-xl font-semibold transition-all duration-300 ${
+                    selectedDepartment === dept.value
+                      ? 'bg-gradient-to-r from-indigo-600 to-cyan-600 text-white shadow-lg'
+                      : 'bg-white text-gray-700 hover:bg-gray-100 shadow-sm'
+                  }`}
+                >
+                  <span>{dept.icon}</span>
+                  {dept.name} ({dept.count})
+                </button>
+              ))}
+            </div>
+          </ScrollAnimateWrapper>
+        </div>
+      </section>
+
+      {/* Jobs Grid */}
+      <section className="py-24 bg-gray-50">
+        <div className="container-custom">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {filteredJobs.filter(job => !job.urgent).map((job, index) => (
+              <ScrollAnimateWrapper 
+                key={job.id}
+                animation={index % 3 === 0 ? 'slideInLeft' : index % 3 === 1 ? 'slideInUp' : 'slideInRight'}
+                delay={`stagger-${(index % 3) + 1}`}
+                className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group cursor-pointer"
+                onClick={() => setSelectedJob(job)}
+              >
+                <div className="p-8">
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="flex items-center gap-2">
+                      <span className="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-xs font-bold">
+                        {job.department}
+                      </span>
+                      <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs">
+                        {job.type}
+                      </span>
+                    </div>
+                  </div>
+                  
+                  <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-indigo-600 transition-colors">
+                    {job.title}
+                  </h3>
+                  
+                  <div className="flex items-center gap-4 text-sm text-gray-500 mb-4">
+                    <span className="flex items-center gap-1">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                      </svg>
+                      {job.location}
+                    </span>
+                    <span>{job.experience}</span>
+                  </div>
+                  
+                  <p className="text-gray-600 mb-6 text-sm leading-relaxed line-clamp-3">{job.description}</p>
+                  
+                  <div className="flex items-center justify-between">
+                    <span className="text-lg font-bold text-indigo-600">{job.salary}</span>
+                    <button className="bg-indigo-100 hover:bg-indigo-200 text-indigo-600 px-4 py-2 rounded-lg font-semibold transition-colors">
+                      Voir détails
+                    </button>
+                  </div>
+                </div>
+              </ScrollAnimateWrapper>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Job Modal */}
+      {selectedJob && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={() => setSelectedJob(null)}>
+          <div className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+            <div className="p-8">
+              <div className="flex items-start justify-between mb-8">
+                <div>
+                  <div className="flex items-center gap-2 mb-4">
+                    {selectedJob.urgent && (
+                      <span className="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-bold">
+                        URGENT
+                      </span>
+                    )}
+                    <span className="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm font-bold">
+                      {selectedJob.department}
+                    </span>
+                    <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">
+                      {selectedJob.type}
+                    </span>
+                  </div>
+                  <h2 className="text-3xl font-bold text-gray-900 mb-4">{selectedJob.title}</h2>
+                  <div className="flex items-center gap-6 text-gray-600">
+                    <span className="flex items-center gap-2">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                      </svg>
+                      {selectedJob.location}
+                    </span>
+                    <span className="flex items-center gap-2">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m8 0V6a2 2 0 012 2v6a2 2 0 01-2 2H6a2 2 0 01-2-2V8a2 2 0 012-2V6z" />
+                      </svg>
+                      {selectedJob.experience}
+                    </span>
+                    <span className="text-lg font-bold text-indigo-600">{selectedJob.salary}</span>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setSelectedJob(null)}
+                  className="w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center text-gray-600 transition-colors"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+              
+              <p className="text-lg text-gray-700 mb-8 leading-relaxed">{selectedJob.description}</p>
+              
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+                <div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-4">Prérequis</h3>
+                  <ul className="space-y-2">
+                    {selectedJob.requirements.map((req, idx) => (
+                      <li key={idx} className="flex items-start gap-2 text-gray-600">
+                        <svg className="w-5 h-5 text-indigo-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                        </svg>
+                        {req}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                
+                <div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-4">Responsabilités</h3>
+                  <ul className="space-y-2">
+                    {selectedJob.responsibilities.map((resp, idx) => (
+                      <li key={idx} className="flex items-start gap-2 text-gray-600">
+                        <svg className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                        </svg>
+                        {resp}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                
+                <div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-4">Avantages</h3>
+                  <ul className="space-y-2">
+                    {selectedJob.benefits.map((benefit, idx) => (
+                      <li key={idx} className="flex items-start gap-2 text-gray-600">
+                        <svg className="w-5 h-5 text-purple-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clipRule="evenodd" />
+                        </svg>
+                        {benefit}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+              
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Link
+                  href="/contact"
+                  className="flex-1 bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-700 hover:to-cyan-700 text-white font-bold py-4 px-8 rounded-xl text-center transition-all duration-300"
+                >
+                  Postuler à ce poste
+                </Link>
+                <button
+                  onClick={() => setSelectedJob(null)}
+                  className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-900 font-semibold py-4 px-8 rounded-xl transition-all duration-300"
+                >
+                  Fermer
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Spontaneous Application */}
+      <section id="spontanee" className="py-24 bg-white relative overflow-hidden">
+        <ParticlesBackground particleCount={40} color="rgba(99, 102, 241, 0.1)" speed={0.3} />
+        
+        <div className="container-custom relative z-10">
+          <ScrollAnimateWrapper animation="zoomRotateIn" className="text-center max-w-4xl mx-auto">
+            <div className="bg-gradient-to-br from-indigo-50 to-cyan-50 rounded-2xl p-12">
+              <div className="w-16 h-16 bg-gradient-to-br from-indigo-500 to-cyan-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                </svg>
+              </div>
+              
+              <h3 className="text-3xl font-bold text-gray-900 mb-4">
+                Candidature Spontanée
+              </h3>
+              <p className="text-xl text-gray-600 mb-8">
+                Vous ne trouvez pas le poste qui vous correspond ? 
+                Envoyez-nous votre candidature spontanée, nous étudierons votre profil avec attention
+              </p>
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div className="text-center">
+                  <div className="text-3xl mb-2">📧</div>
+                  <h4 className="font-bold text-gray-900 mb-1">Email</h4>
+                  <p className="text-gray-600 text-sm">rh@eps.mr</p>
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl mb-2">📄</div>
+                  <h4 className="font-bold text-gray-900 mb-1">Documents</h4>
+                  <p className="text-gray-600 text-sm">CV + Lettre de motivation</p>
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl mb-2">⏱️</div>
+                  <h4 className="font-bold text-gray-900 mb-1">Délai</h4>
+                  <p className="text-gray-600 text-sm">Réponse sous 48h</p>
+                </div>
+              </div>
+              
+              <Link
+                href="mailto:rh@eps.mr"
+                className="inline-flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-700 hover:to-cyan-700 text-white font-bold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                Envoyer ma candidature
+              </Link>
+            </div>
+          </ScrollAnimateWrapper>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-24 bg-gradient-to-r from-indigo-600 to-cyan-700 text-white relative overflow-hidden">
+        <ParticlesBackground particleCount={60} color="rgba(255, 255, 255, 0.2)" speed={0.4} />
+        
+        <div className="container-custom relative z-10">
+          <ScrollAnimateWrapper animation="zoomRotateIn" className="text-center">
+            <h2 className="text-4xl md:text-5xl font-black mb-6">
+              Prêt à Nous Rejoindre ?
+            </h2>
+            <p className="text-xl text-indigo-100 mb-12 max-w-3xl mx-auto">
+              Découvrez un environnement de travail stimulant où votre talent 
+              et votre passion feront la différence
+            </p>
+            
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link
+                href="#offres"
+                className="inline-flex items-center gap-2 bg-white text-indigo-600 hover:bg-indigo-50 font-bold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m8 0V6a2 2 0 012 2v6a2 2 0 01-2 2H6a2 2 0 01-2-2V8a2 2 0 012-2V6z" />
+                </svg>
+                Consulter les offres
+              </Link>
+              <Link
+                href="/contact"
+                className="inline-flex items-center gap-2 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-bold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                </svg>
+                Nous contacter
+              </Link>
+            </div>
+          </ScrollAnimateWrapper>
+        </div>
+      </section>
+    </main>
+  );
+}

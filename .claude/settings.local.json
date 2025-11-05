@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run build)",
+      "Bash(NUL)",
+      "Bash(Get-ChildItem -Path \"c:\\wamp64\\www\\epswebsite\\eps-website\\src\\app\" -Recurse -Filter \"page.tsx\")",
+      "Bash(Select-Object FullName)",
+      "Bash(for dir in nettoyage antiparasitaire faune manutention pmr communication)",
+      "Bash(do sed -i \"s|@/components/animations/ScrollAnimateWrapper|@/components/ScrollAnimateWrapper|g\" $dir/page.tsx)",
+      "Bash(done)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
