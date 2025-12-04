@@ -112,17 +112,17 @@ export const CommunicationServices: React.FC = () => {
         {/* Decorative elements with parallax */}
         <div 
           ref={parallax1.elementRef}
-          className="absolute top-0 right-0 w-96 h-96 bg-purple-200 rounded-full mix-blend-multiply filter blur-3xl opacity-15 animate-blob"
+          className="absolute top-0 right-0 w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 bg-purple-200 rounded-full mix-blend-multiply filter blur-3xl opacity-15 animate-blob"
           style={{ 
             transform: `translateY(${parallax1.offset.y}px) rotate(${parallax1.offset.rotation}deg)` 
           }}
         ></div>
         <div 
           ref={parallax2.elementRef}
-          className="absolute bottom-0 left-0 w-96 h-96 bg-pink-200 rounded-full mix-blend-multiply filter blur-3xl opacity-15 animate-blob animation-delay-2000"
+          className="absolute bottom-0 left-0 w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 bg-pink-200 rounded-full mix-blend-multiply filter blur-3xl opacity-15 animate-blob animation-delay-2000"
           style={{ transform: `translateY(${parallax2.offset.y}px)` }}
         ></div>
-        <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-orange-100 rounded-full filter blur-3xl opacity-10 -translate-x-1/2 -translate-y-1/2 animate-blob animation-delay-3000"></div>
+        <div className="absolute top-1/2 left-1/2 w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 bg-orange-100 rounded-full filter blur-3xl opacity-10 -translate-x-1/2 -translate-y-1/2 animate-blob animation-delay-3000"></div>
 
         <div className="container-custom relative z-10">
           <ScrollAnimateWrapper className="text-center mb-20" animation="revealUp">
@@ -138,30 +138,30 @@ export const CommunicationServices: React.FC = () => {
                 visuelle & événementielle
               </span>
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-xs sm:max-w-sm md:max-w-2xl lg:max-w-3xl mx-auto leading-relaxed">
               Une organisation qui vous garantit l'impact d'un design sur mesure et une communication de marque efficace à des prix très intéressants
             </p>
           </ScrollAnimateWrapper>
 
-          <div className="grid md:grid-cols-2 gap-8 md:gap-10 mb-20">
+          <div className="grid md:grid-cols-2 gap-4 sm:gap-6 md:gap-8 lg:gap-10 mb-12 sm:mb-16 md:mb-20">
             {communicationServices.map((service, index) => (
               <ScrollAnimateWrapper
                 key={index}
                 animation={commAnimations[index % commAnimations.length]}
                 delay={`stagger-${index + 1}`}
-                className="group relative bg-white rounded-2xl p-10 shadow-md hover:shadow-2xl transition-all duration-500 border border-gray-200 hover:border-purple-300 transform hover:-translate-y-2 overflow-hidden perspective-1000"
+                className="group relative bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 lg:p-10 shadow-md hover:shadow-2xl transition-all duration-500 border border-gray-200 hover:border-purple-300 transform hover:-translate-y-2 overflow-hidden perspective-1000"
               >
                 {/* Gradient background on hover */}
                 <div className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}></div>
                 
                 <div className="relative z-10">
-                  <div className={`inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br ${service.color} rounded-2xl text-white mb-6 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 shadow-lg group-hover:shadow-2xl`}>
+                  <div className={`inline-flex items-center justify-center w-16 h-16 sm:w-18 sm:h-18 md:w-20 md:h-20 bg-gradient-to-br ${service.color} rounded-xl sm:rounded-2xl text-white mb-4 sm:mb-5 md:mb-6 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 shadow-lg group-hover:shadow-2xl`}>
                     {service.icon}
                   </div>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-purple-600 transition-colors duration-300">
+                  <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-3 sm:mb-4 group-hover:text-purple-600 transition-colors duration-300">
                     {service.title}
                   </h3>
-                  <p className="text-gray-600 leading-relaxed text-lg">
+                  <p className="text-gray-600 leading-relaxed text-sm sm:text-base md:text-lg">
                     {service.description}
                   </p>
                 </div>
@@ -177,20 +177,20 @@ export const CommunicationServices: React.FC = () => {
             <h3 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
               Pour qui ?
             </h3>
-            <p className="text-lg text-gray-600 mb-12 max-w-2xl mx-auto">
+            <p className="text-base sm:text-lg text-gray-600 mb-8 sm:mb-10 md:mb-12 max-w-xs sm:max-w-sm md:max-w-xl lg:max-w-2xl mx-auto">
               Tous nos produits nous permettent de répondre à vos demandes
             </p>
           </ScrollAnimateWrapper>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 mb-16">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 md:gap-8 mb-12 sm:mb-14 md:mb-16">
             {clientTypes.map((client, index) => (
               <ScrollAnimateWrapper
                 key={index}
                 animation="scaleIn"
                 delay={`stagger-${index + 1}`}
-                className="flex flex-col items-center p-8 bg-white rounded-2xl shadow-md hover:shadow-2xl transition-all duration-500 border border-gray-200 hover:border-purple-300 group transform hover:-translate-y-2"
+                className="flex flex-col items-center p-4 sm:p-6 md:p-8 bg-white rounded-xl sm:rounded-2xl shadow-md hover:shadow-2xl transition-all duration-500 border border-gray-200 hover:border-purple-300 group transform hover:-translate-y-2"
               >
-                <div className={`inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br ${client.color} rounded-2xl text-white mb-5 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 shadow-lg group-hover:shadow-xl`}>
+                <div className={`inline-flex items-center justify-center w-16 h-16 sm:w-18 sm:h-18 md:w-20 md:h-20 bg-gradient-to-br ${client.color} rounded-xl sm:rounded-2xl text-white mb-3 sm:mb-4 md:mb-5 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 shadow-lg group-hover:shadow-xl`}>
                   {client.icon}
                 </div>
                 <span className="text-base font-bold text-gray-700 group-hover:text-purple-600 text-center transition-colors duration-300">
@@ -202,11 +202,11 @@ export const CommunicationServices: React.FC = () => {
 
           {/* CTA */}
           <ScrollAnimateWrapper animation="fadeInUp" className="text-center">
-            <div className="bg-gradient-to-br from-purple-600 via-purple-700 to-pink-600 rounded-2xl p-8 md:p-12 shadow-2xl">
-              <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">
+            <div className="bg-gradient-to-br from-purple-600 via-purple-700 to-pink-600 rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 lg:p-12 shadow-2xl">
+              <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-3 sm:mb-4">
                 Faites appel à notre société EPS.sarl
               </h3>
-              <p className="text-purple-100 text-lg mb-8 max-w-2xl mx-auto">
+              <p className="text-purple-100 text-base sm:text-lg mb-6 sm:mb-8 max-w-xs sm:max-w-sm md:max-w-xl lg:max-w-2xl mx-auto">
                 Demandez un devis gratuit pour établir le contrat de communication selon vos besoins !
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">

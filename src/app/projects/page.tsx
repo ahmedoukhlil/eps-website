@@ -10,123 +10,51 @@ import { useParallax } from '@/hooks/useParallax';
 const projects = [
   {
     id: 1,
-    title: 'Centre Commercial Nouakchott Plaza',
-    category: 'Nettoyage Commercial',
-    description: 'Nettoyage complet et maintenance d\'un centre commercial de 15 000 m² avec 80 boutiques.',
-    image: '/images/projects/nouakchott.jpg',
-    client: 'Nouakchott Plaza',
-    duration: '6 mois',
-    surface: '15 000 m²',
-    team: '12 personnes',
-    services: ['Nettoyage quotidien', 'Entretien des sols', 'Nettoyage des vitres', 'Désinfection'],
-    results: ['100% satisfaction client', 'Réduction 30% des coûts', 'Amélioration hygiène'],
-    status: 'Terminé',
-    year: '2023'
-  },
-  {
-    id: 2,
-    title: 'Hôtel Oumtounsy International',
-    category: 'Hôtellerie',
-    description: 'Service de nettoyage professionnel pour un hôtel 4 étoiles de 120 chambres.',
+    title: 'Aéroport Oum Tounsy',
+    category: 'Aéroportuaire',
+    description: 'Le plus grand projet d\'EPS : services complets pour l\'aéroport Oum Tounsy incluant nettoyage, lutte antiparasitaire, manutention de bagages et nettoyage des cabines d\'avions.',
     image: '/images/projects/oumtounsy.jpg',
-    client: 'Oumtounsy Hotels',
-    duration: '12 mois',
-    surface: '8 000 m²',
-    team: '18 personnes',
-    services: ['Nettoyage chambres', 'Entretien espaces communs', 'Blanchisserie', 'Désinfection'],
-    results: ['Certification hygiène', 'Satisfaction 98%', 'Renouvellement contrat'],
-    status: 'En cours',
-    year: '2023'
-  },
-  {
-    id: 3,
-    title: 'Campus Universitaire de Nouakchott',
-    category: 'Éducation',
-    description: 'Nettoyage et maintenance des bâtiments universitaires pour 5000 étudiants.',
-    image: '/images/services/nettoyage.jpg',
-    client: 'Université de Nouakchott',
-    duration: '24 mois',
-    surface: '25 000 m²',
-    team: '25 personnes',
-    services: ['Nettoyage salles de cours', 'Entretien laboratoires', 'Désinfection', 'Gestion déchets'],
-    results: ['Environnement sain', 'Respect normes', 'Économies réalisées'],
-    status: 'En cours',
-    year: '2022'
-  },
-  {
-    id: 4,
-    title: 'Complexe Industriel SNIM',
-    category: 'Industrie',
-    description: 'Nettoyage industriel spécialisé et lutte antiparasitaire pour un site minier.',
-    image: '/images/services/lutte-antiparasitaire.jpg',
-    client: 'SNIM',
-    duration: '18 mois',
-    surface: '50 000 m²',
-    team: '30 personnes',
-    services: ['Nettoyage industriel', 'Dératisation', 'Désinsectisation', 'Maintenance'],
-    results: ['Zéro incident', 'Conformité totale', 'Productivité améliorée'],
-    status: 'Terminé',
-    year: '2022'
-  },
-  {
-    id: 5,
-    title: 'Salon International du Tourisme',
-    category: 'Événementiel',
-    description: 'Organisation complète d\'un salon professionnel avec 200 exposants.',
-    image: '/images/services/communication.jpg',
-    client: 'Ministère du Tourisme',
-    duration: '3 mois',
-    surface: '5 000 m²',
-    team: '15 personnes',
-    services: ['Stands d\'exposition', 'Signalétique', 'Impression', 'Coordination'],
-    results: ['200 exposants', '10 000 visiteurs', 'Succès médiatique'],
-    status: 'Terminé',
-    year: '2023'
-  },
-  {
-    id: 6,
-    title: 'Résidence El Baraka',
-    category: 'Résidentiel',
-    description: 'Entretien complet d\'une résidence de standing avec services aux résidents.',
-    image: '/images/services/assistance-pmr.jpg',
-    client: 'Résidence El Baraka',
+    client: 'Aéroport Oum Tounsy',
     duration: 'Permanent',
-    surface: '12 000 m²',
-    team: '8 personnes',
-    services: ['Nettoyage commun', 'Jardinage', 'Assistance PMR passagers', 'Conciergerie'],
-    results: ['Satisfaction 100%', 'Services premium', 'Fidélisation client'],
+    surface: '45 000 m²',
+    team: '35 personnes',
+    services: [
+      'Nettoyage des terminaux et bâtiments annexes',
+      'Nettoyage intérieur des cabines d\'avion',
+      'Entretien des chaussées, parkings et voiries',
+      'Manutention des bagages (chargement, déchargement, tri, transport)',
+      'Lutte antiparasitaire (dératisation, désinsectisation)',
+      'Désinfection et hygiène des espaces',
+      'Gestion et maintenance continue'
+    ],
+    results: [
+      '100% satisfaction client',
+      'Standards internationaux respectés',
+      'Environnement sain et sécurisé',
+      'Efficacité opérationnelle optimale',
+      'Renouvellement de contrat'
+    ],
     status: 'En cours',
     year: '2021'
   }
 ];
 
-const categories = [
-  { name: 'Tous', value: 'all', count: projects.length },
-  { name: 'Commercial', value: 'Nettoyage Commercial', count: projects.filter(p => p.category === 'Nettoyage Commercial').length },
-  { name: 'Hôtellerie', value: 'Hôtellerie', count: projects.filter(p => p.category === 'Hôtellerie').length },
-  { name: 'Éducation', value: 'Éducation', count: projects.filter(p => p.category === 'Éducation').length },
-  { name: 'Industrie', value: 'Industrie', count: projects.filter(p => p.category === 'Industrie').length },
-  { name: 'Événementiel', value: 'Événementiel', count: projects.filter(p => p.category === 'Événementiel').length },
-  { name: 'Résidentiel', value: 'Résidentiel', count: projects.filter(p => p.category === 'Résidentiel').length }
-];
+// Pas de filtres nécessaires car un seul projet
 
 const stats = [
   { label: 'Projets Réalisés', value: '150+', icon: '📊' },
   { label: 'Clients Satisfaits', value: '100+', icon: '😊' },
-  { label: 'Surface Traitée', value: '500K m²', icon: '📏' },
+  { label: 'Surface Traitée', value: '250K m²', icon: '📏' },
   { label: 'Années d\'Expérience', value: '15+', icon: '⏰' }
 ];
 
 export default function ProjectsPage() {
-  const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedProject, setSelectedProject] = useState<typeof projects[0] | null>(null);
 
   const parallax1 = useParallax({ speed: 0.3, direction: 'up' });
   const parallax2 = useParallax({ speed: 0.4, direction: 'down' });
 
-  const filteredProjects = selectedCategory === 'all' 
-    ? projects 
-    : projects.filter(project => project.category === selectedCategory);
+  const filteredProjects = projects;
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -139,7 +67,7 @@ export default function ProjectsPage() {
   return (
     <main className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-blue-600 via-blue-700 to-blue-900 text-white py-32 overflow-hidden">
+      <section className="relative bg-gradient-to-br from-blue-600 via-blue-700 to-blue-900 text-white py-16 sm:py-20 md:py-24 lg:py-32 overflow-hidden">
         <ParticlesBackground particleCount={30} color="rgba(255, 255, 255, 0.4)" speed={0.3} />
         
         {/* Decorative Elements */}
@@ -163,7 +91,7 @@ export default function ProjectsPage() {
         {/* Subtle grid pattern */}
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDM0djItaDJWMzZoLTJ6bTAtNGgydjJoLTJ2LTJ6bTAgNGgydjJoLTJ2LTJ6Ii8+PC9nPjwvZz48L3N2Zz4=')] opacity-30"></div>
 
-        <div className="container-custom relative z-10">
+        <div className="container-custom px-4 sm:px-6 lg:px-8 relative z-10">
           <ScrollAnimateWrapper animation="bounceIn" className="text-center mb-6">
             <div className="inline-flex items-center gap-1.5 bg-black/40 backdrop-blur-md border border-white/40 rounded-full px-4 py-2 shadow-2xl">
               <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse shadow-lg"></span>
@@ -179,8 +107,9 @@ export default function ProjectsPage() {
             <ScrollAnimateWrapper animation="fadeInUp" delay="stagger-2" className="mb-8">
               <div className="bg-black/20 backdrop-blur-sm rounded-xl px-6 py-4 max-w-3xl mx-auto border border-white/20">
                 <p className="text-base md:text-lg text-white font-medium leading-relaxed drop-shadow-xl">
-                  Découvrez nos <span className="text-yellow-400 font-semibold">réalisations exceptionnelles</span> et
-                  la satisfaction de nos clients à travers des projets variés et innovants
+                  Découvrez notre <span className="text-yellow-400 font-semibold">plus grand projet</span> : 
+                  l'aéroport Oum Tounsy où EPS assure l'ensemble des services de nettoyage, lutte antiparasitaire, 
+                  manutention de bagages et nettoyage des cabines d'avions
                 </p>
               </div>
             </ScrollAnimateWrapper>
@@ -196,8 +125,8 @@ export default function ProjectsPage() {
       </section>
 
       {/* Stats Section */}
-      <section className="py-24 bg-white">
-        <div className="container-custom">
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-white">
+        <div className="container-custom px-4 sm:px-6 lg:px-8">
           <ScrollAnimateWrapper animation="revealUp" className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-6">
               Nos Chiffres Clés
@@ -228,38 +157,16 @@ export default function ProjectsPage() {
         </div>
       </section>
 
-      {/* Filter Section */}
-      <section className="py-12 bg-gray-50">
-        <div className="container-custom">
-          <ScrollAnimateWrapper animation="fadeIn">
-            <div className="flex flex-wrap justify-center gap-4">
-              {categories.map((category) => (
-                <button
-                  key={category.value}
-                  onClick={() => setSelectedCategory(category.value)}
-                  className={`px-6 py-3 rounded-xl font-semibold transition-all duration-300 ${
-                    selectedCategory === category.value
-                      ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-lg'
-                      : 'bg-white text-gray-700 hover:bg-gray-100 shadow-sm'
-                  }`}
-                >
-                  {category.name} ({category.count})
-                </button>
-              ))}
-            </div>
-          </ScrollAnimateWrapper>
-        </div>
-      </section>
 
       {/* Projects Grid */}
-      <section className="py-24 bg-gray-50">
-        <div className="container-custom">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-gray-50">
+        <div className="container-custom px-4 sm:px-6 lg:px-8">
+          <div className="max-w-4xl mx-auto">
             {filteredProjects.map((project, index) => (
               <ScrollAnimateWrapper 
                 key={project.id}
-                animation={index % 3 === 0 ? 'slideInLeft' : index % 3 === 1 ? 'slideInUp' : 'slideInRight'}
-                delay={`stagger-${(index % 3) + 1}`}
+                animation="revealUp"
+                delay="stagger-1"
                 className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group cursor-pointer"
                 onClick={() => setSelectedProject(project)}
               >
@@ -431,10 +338,10 @@ export default function ProjectsPage() {
       )}
 
       {/* CTA Section */}
-      <section className="py-24 bg-gradient-to-r from-purple-600 to-indigo-700 text-white relative overflow-hidden">
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-gradient-to-r from-purple-600 to-indigo-700 text-white relative overflow-hidden">
         <ParticlesBackground particleCount={60} color="rgba(255, 255, 255, 0.2)" speed={0.4} />
         
-        <div className="container-custom relative z-10">
+        <div className="container-custom px-4 sm:px-6 lg:px-8 relative z-10">
           <ScrollAnimateWrapper animation="zoomRotateIn" className="text-center">
             <h2 className="text-4xl md:text-5xl font-black mb-6">
               Votre Projet, Notre Expertise

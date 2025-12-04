@@ -48,7 +48,7 @@ const animations: Array<'bounceIn' | 'zoomRotateIn' | 'flipInX' | 'scaleIn'> = [
 export const StatsSection: React.FC = () => {
 
   return (
-    <section className="py-24 bg-gradient-to-b from-white via-gray-50 to-white relative overflow-hidden">
+    <section className="py-12 md:py-16 lg:py-24 bg-gradient-to-b from-white via-gray-50 to-white relative overflow-hidden">
       {/* Particles Background */}
       <ParticlesBackground particleCount={30} color="rgba(59, 130, 246, 0.3)" speed={0.3} />
       
@@ -65,13 +65,13 @@ export const StatsSection: React.FC = () => {
             </svg>
             NOS CHIFFRES CLÉS
           </span>
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
-            Des résultats qui parlent 
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+            Des résultats qui parlent
             <span className="block mt-2 bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
               d'eux-mêmes
             </span>
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-base md:text-lg lg:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             Notre engagement se traduit par des résultats concrets et mesurables
           </p>
         </ScrollAnimateWrapper>

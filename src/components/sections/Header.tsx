@@ -11,12 +11,27 @@ const navigation = [
     name: 'Services',
     href: '/services',
     submenu: [
-      { name: 'Nettoyage Professionnel', href: '/services/nettoyage' },
-      { name: 'Lutte Antiparasitaire', href: '/services/antiparasitaire' },
-      { name: 'Gestion de la Faune', href: '/services/faune' },
-      { name: 'Manutention Aéroportuaire', href: '/services/manutention' },
-      { name: 'Assistance PMR', href: '/services/pmr' },
-      { name: 'Communication & Événementiel', href: '/services/communication' },
+      {
+        group: 'Nettoyage',
+        items: [
+          { name: 'Nettoyage Professionnel', href: '/services/nettoyage' },
+          { name: 'Gestion de la Faune', href: '/services/faune' },
+          { name: 'Lutte Antiparasitaire', href: '/services/antiparasitaire' },
+        ]
+      },
+      {
+        group: 'Manutention',
+        items: [
+          { name: 'Manutention Aéroportuaire', href: '/services/manutention' },
+          { name: 'Assistance PMR', href: '/services/pmr' },
+        ]
+      },
+      {
+        group: 'Communications',
+        items: [
+          { name: 'Communication & Événementiel', href: '/services/communication' },
+        ]
+      },
     ]
   },
   {
@@ -25,7 +40,6 @@ const navigation = [
     submenu: [
       { name: 'À propos', href: '/about' },
       { name: 'Nos Projets', href: '/projects' },
-      { name: 'Zone d\'Intervention', href: '/zone' },
       { name: 'Carrières', href: '/careers' },
     ]
   },
@@ -74,13 +88,13 @@ export const Header: React.FC = () => {
           <div className={`flex items-center justify-between relative transition-all duration-300 ${scrolled ? 'h-16' : 'h-20'}`}>
             {/* Logo */}
             <Link href="/" className="flex items-center group">
-              <div className="relative group-hover:scale-105 transition-all duration-300 flex items-center justify-center z-10" style={{width: '120px', height: '120px'}}>
+              <div className="relative group-hover:scale-105 transition-all duration-300 flex items-center justify-center z-10 w-20 h-20 md:w-24 md:h-24 lg:w-28 lg:h-28">
                 <Image
                   src="/images/logos/logo-eps.png"
                   alt="EPS - El Baraka Prestations de Service"
                   width={120}
                   height={120}
-                  className="object-contain drop-shadow-md"
+                  className="object-contain drop-shadow-md w-full h-full"
                   priority
                 />
               </div>
@@ -107,16 +121,43 @@ export const Header: React.FC = () => {
                   {/* Dropdown Menu */}
                   {item.submenu && (
                     <div className="absolute top-full left-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
-                      <div className="w-64 bg-white rounded-xl shadow-xl border border-gray-100 py-2">
-                        {item.submenu.map((subItem) => (
-                          <Link
-                            key={subItem.name}
-                            href={subItem.href}
-                            className="block px-4 py-3 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 hover:text-blue-600 transition-all duration-200 mx-2 rounded-lg"
-                          >
-                            {subItem.name}
-                          </Link>
-                        ))}
+                      <div className="bg-white rounded-xl shadow-xl border border-gray-100 py-4 min-w-[280px]">
+                        {item.submenu.map((subItem, index) => {
+                          // Si c'est un groupe (avec items)
+                          if ('group' in subItem && 'items' in subItem) {
+                            return (
+                              <div key={`group-${index}-${subItem.group}`} className={index > 0 ? 'border-t border-gray-100 mt-2 pt-2' : ''}>
+                                <div className="px-4 py-2 mb-1">
+                                  <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                    {subItem.group}
+                                  </span>
+                                </div>
+                                {subItem.items.map((serviceItem) => (
+                                  <Link
+                                    key={serviceItem.name}
+                                    href={serviceItem.href}
+                                    className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 hover:text-blue-600 transition-all duration-200 mx-2 rounded-lg"
+                                  >
+                                    {serviceItem.name}
+                                  </Link>
+                                ))}
+                              </div>
+                            );
+                          }
+                          // Si c'est un item simple (rétrocompatibilité)
+                          if ('name' in subItem && 'href' in subItem) {
+                            return (
+                              <Link
+                                key={subItem.name}
+                                href={subItem.href}
+                                className="block px-4 py-3 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 hover:text-blue-600 transition-all duration-200 mx-2 rounded-lg"
+                              >
+                                {subItem.name}
+                              </Link>
+                            );
+                          }
+                          return null;
+                        })}
                       </div>
                     </div>
                   )}
@@ -166,17 +207,45 @@ export const Header: React.FC = () => {
                     </Link>
                     {/* Mobile Submenu */}
                     {item.submenu && (
-                      <div className="ml-4 mt-2 space-y-1">
-                        {item.submenu.map((subItem) => (
-                          <Link
-                            key={subItem.name}
-                            href={subItem.href}
-                            className="block px-4 py-2 text-sm text-gray-600 hover:bg-blue-50 hover:text-blue-600 transition-all duration-200 rounded-lg"
-                            onClick={() => setMobileMenuOpen(false)}
-                          >
-                            {subItem.name}
-                          </Link>
-                        ))}
+                      <div className="ml-4 mt-2 space-y-3">
+                        {item.submenu.map((subItem, idx) => {
+                          // Si c'est un groupe (avec items)
+                          if ('group' in subItem && 'items' in subItem) {
+                            return (
+                              <div key={`group-${idx}-${subItem.group}`} className="space-y-1">
+                                <div className="px-4 py-1">
+                                  <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                    {subItem.group}
+                                  </span>
+                                </div>
+                                {subItem.items.map((serviceItem) => (
+                                  <Link
+                                    key={serviceItem.name}
+                                    href={serviceItem.href}
+                                    className="block px-4 py-2 text-sm text-gray-600 hover:bg-blue-50 hover:text-blue-600 transition-all duration-200 rounded-lg"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                  >
+                                    {serviceItem.name}
+                                  </Link>
+                                ))}
+                              </div>
+                            );
+                          }
+                          // Si c'est un item simple (rétrocompatibilité)
+                          if ('name' in subItem && 'href' in subItem) {
+                            return (
+                              <Link
+                                key={subItem.name}
+                                href={subItem.href}
+                                className="block px-4 py-2 text-sm text-gray-600 hover:bg-blue-50 hover:text-blue-600 transition-all duration-200 rounded-lg"
+                                onClick={() => setMobileMenuOpen(false)}
+                              >
+                                {subItem.name}
+                              </Link>
+                            );
+                          }
+                          return null;
+                        })}
                       </div>
                     )}
                   </div>

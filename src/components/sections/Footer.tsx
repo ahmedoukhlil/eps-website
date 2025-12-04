@@ -5,10 +5,12 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 const services = [
-  { name: 'Nettoyage professionnel', href: '/services/nettoyage' },
-  { name: 'Communication visuelle', href: '/services/communication' },
-  { name: 'Organisation événementielle', href: '/services/evenementiel' },
-  { name: 'Location de supports', href: '/services/location' },
+  { name: 'Nettoyage Professionnel', href: '/services/nettoyage' },
+  { name: 'Gestion de la Faune', href: '/services/faune' },
+  { name: 'Lutte Antiparasitaire', href: '/services/antiparasitaire' },
+  { name: 'Manutention Aéroportuaire', href: '/services/manutention' },
+  { name: 'Assistance PMR', href: '/services/pmr' },
+  { name: 'Communication & Événementiel', href: '/services/communication' },
 ];
 
 const quickLinks = [
@@ -34,7 +36,7 @@ export const Footer: React.FC = () => {
 
       <div className="container-custom relative z-10">
         {/* Main Footer Content */}
-        <div className="py-16 md:py-20">
+        <div className="py-12 md:py-16 lg:py-20">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-12">
             {/* Company Info - Enhanced */}
             <div className="lg:col-span-4">
@@ -46,6 +48,7 @@ export const Footer: React.FC = () => {
                     width={128}
                     height={128}
                     className="object-contain drop-shadow-2xl"
+                    style={{ width: 'auto', height: 'auto' }}
                   />
                 </div>
               </Link>

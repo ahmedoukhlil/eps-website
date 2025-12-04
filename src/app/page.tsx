@@ -1,9 +1,10 @@
 import { Hero } from '@/components/sections/Hero';
+import { FeaturedServicesSection } from '@/components/sections/FeaturedServicesSection';
 import { ServicesSection } from '@/components/sections/ServicesSection';
-import { StatsSection } from '@/components/sections/StatsSection';
 import { ImageContentSection } from '@/components/sections/ImageContentSection';
 import { CommunicationServices } from '@/components/sections/CommunicationServices';
 import { WhyChooseUs } from '@/components/sections/WhyChooseUs';
+import { EquipmentSection } from '@/components/sections/EquipmentSection';
 import { ProcessSection } from '@/components/sections/ProcessSection';
 import { ClientLogosSection } from '@/components/sections/ClientLogosSection';
 import { Testimonials } from '@/components/sections/Testimonials';
@@ -35,11 +36,12 @@ export default async function Home() {
   return (
     <main>
       <Hero />
-      <StatsSection />
+      <FeaturedServicesSection />
       <ServicesSection />
       <ImageContentSection />
       <CommunicationServices />
       <WhyChooseUs />
+      <EquipmentSection />
       <ProcessSection />
       <ClientLogosSection />
       <Testimonials testimonials={testimonials} />

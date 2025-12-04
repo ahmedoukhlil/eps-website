@@ -132,7 +132,7 @@ export default function NewsPage() {
   return (
     <main className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-blue-600 via-blue-700 to-blue-900 text-white py-32 overflow-hidden">
+      <section className="relative bg-gradient-to-br from-blue-600 via-blue-700 to-blue-900 text-white py-16 sm:py-20 md:py-24 lg:py-32 overflow-hidden">
         <ParticlesBackground particleCount={30} color="rgba(255, 255, 255, 0.4)" speed={0.3} />
 
         {/* Decorative Elements */}
@@ -156,7 +156,7 @@ export default function NewsPage() {
         {/* Subtle grid pattern */}
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDM0djItaDJWMzZoLTJ6bTAtNGgydjJoLTJ2LTJ6bTAgNGgydjJoLTJ2LTJ6Ii8+PC9nPjwvZz48L3N2Zz4=')] opacity-30"></div>
 
-        <div className="container-custom relative z-10">
+        <div className="container-custom px-4 sm:px-6 lg:px-8 relative z-10">
           <ScrollAnimateWrapper animation="bounceIn" className="text-center mb-6">
             <div className="inline-flex items-center gap-1.5 bg-black/40 backdrop-blur-md border border-white/40 rounded-full px-4 py-2 shadow-2xl">
               <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse shadow-lg"></span>
@@ -190,8 +190,8 @@ export default function NewsPage() {
 
       {/* Featured Articles */}
       {featuredArticles.length > 0 && (
-        <section className="py-24 bg-white">
-          <div className="container-custom">
+        <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-white">
+          <div className="container-custom px-4 sm:px-6 lg:px-8">
             <ScrollAnimateWrapper animation="revealUp" className="text-center mb-16">
               <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-6">
                 À la Une
@@ -264,7 +264,7 @@ export default function NewsPage() {
 
       {/* Filter Section */}
       <section className="py-12 bg-gray-50">
-        <div className="container-custom">
+        <div className="container-custom px-4 sm:px-6 lg:px-8">
           <ScrollAnimateWrapper animation="fadeIn">
             <div className="flex flex-wrap justify-center gap-4">
               {categories.map((category) => (
@@ -286,8 +286,8 @@ export default function NewsPage() {
       </section>
 
       {/* Articles Grid */}
-      <section className="py-24 bg-gray-50">
-        <div className="container-custom">
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-gray-50">
+        <div className="container-custom px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {regularArticles.map((article, index) => (
               <ScrollAnimateWrapper 
@@ -423,13 +423,13 @@ export default function NewsPage() {
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link
                   href="/contact"
-                  className="flex-1 bg-gradient-to-r from-rose-600 to-purple-600 hover:from-rose-700 hover:to-purple-700 text-white font-bold py-3 px-6 rounded-xl text-center transition-all duration-300"
+                  className="flex-1 bg-gradient-to-r from-rose-600 to-purple-600 hover:from-rose-700 hover:to-purple-700 text-white font-bold py-2.5 sm:py-3 px-4 sm:px-5 md:px-6 rounded-xl text-center transition-all duration-300 text-xs sm:text-sm"
                 >
                   Nous contacter
                 </Link>
                 <Link
                   href="/services"
-                  className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-900 font-semibold py-3 px-6 rounded-xl text-center transition-all duration-300"
+                  className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-900 font-semibold py-2.5 sm:py-3 px-4 sm:px-5 md:px-6 rounded-xl text-center transition-all duration-300 text-xs sm:text-sm"
                 >
                   Nos services
                 </Link>
@@ -440,10 +440,10 @@ export default function NewsPage() {
       )}
 
       {/* Newsletter Section */}
-      <section className="py-24 bg-white relative overflow-hidden">
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-white relative overflow-hidden">
         <ParticlesBackground particleCount={40} color="rgba(236, 72, 153, 0.1)" speed={0.3} />
         
-        <div className="container-custom relative z-10">
+        <div className="container-custom px-4 sm:px-6 lg:px-8 relative z-10">
           <ScrollAnimateWrapper animation="zoomRotateIn" className="text-center max-w-4xl mx-auto">
             <div className="bg-gradient-to-br from-rose-50 to-purple-50 rounded-2xl p-12">
               <div className="w-16 h-16 bg-gradient-to-br from-rose-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -466,7 +466,7 @@ export default function NewsPage() {
                   placeholder="Votre adresse email"
                   className="flex-1 px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-rose-500 focus:border-transparent"
                 />
-                <button className="bg-gradient-to-r from-rose-600 to-purple-600 hover:from-rose-700 hover:to-purple-700 text-white font-bold py-3 px-6 rounded-xl transition-all duration-300 transform hover:-translate-y-1">
+                <button className="bg-gradient-to-r from-rose-600 to-purple-600 hover:from-rose-700 hover:to-purple-700 text-white font-bold py-2.5 sm:py-3 px-4 sm:px-5 md:px-6 rounded-xl transition-all duration-300 transform hover:-translate-y-1 text-xs sm:text-sm">
                   S'abonner
                 </button>
               </div>
@@ -480,10 +480,10 @@ export default function NewsPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-24 bg-gradient-to-r from-rose-600 to-purple-700 text-white relative overflow-hidden">
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-gradient-to-r from-rose-600 to-purple-700 text-white relative overflow-hidden">
         <ParticlesBackground particleCount={60} color="rgba(255, 255, 255, 0.2)" speed={0.4} />
         
-        <div className="container-custom relative z-10">
+        <div className="container-custom px-4 sm:px-6 lg:px-8 relative z-10">
           <ScrollAnimateWrapper animation="zoomRotateIn" className="text-center">
             <h2 className="text-4xl md:text-5xl font-black mb-6">
               Une Question ? Un Projet ?

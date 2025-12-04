@@ -1,221 +1,22 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ScrollAnimateWrapper } from '@/components/ScrollAnimateWrapper';
 import { ParticlesBackground } from '@/components/ParticlesBackground';
 import { useParallax } from '@/hooks/useParallax';
+import { Career } from '@/lib/data-storage';
+import { JobApplicationForm } from '@/components/JobApplicationForm';
 
-const jobOffers = [
-  {
-    id: 1,
-    title: 'Technicien de Nettoyage Spécialisé',
-    department: 'Opérations',
-    location: 'Nouakchott',
-    type: 'CDI',
-    experience: '2-3 ans',
-    salary: 'Selon expérience',
-    description: 'Nous recherchons un technicien expérimenté pour rejoindre notre équipe de nettoyage spécialisé.',
-    requirements: [
-      'Expérience minimum 2 ans dans le nettoyage professionnel',
-      'Connaissance des produits et techniques de nettoyage',
-      'Capacité à travailler en équipe',
-      'Disponibilité pour horaires flexibles',
-      'Permis de conduire souhaité'
-    ],
-    responsibilities: [
-      'Effectuer les opérations de nettoyage selon les procédures',
-      'Utiliser les équipements et produits appropriés',
-      'Respecter les normes de sécurité et d\'hygiène',
-      'Contrôler la qualité du travail effectué',
-      'Rendre compte à sa hiérarchie'
-    ],
-    benefits: [
-      'Formation continue',
-      'Équipements fournis',
-      'Assurance santé',
-      'Prime de performance',
-      'Évolution de carrière'
-    ],
-    urgent: false,
-    posted: '2023-12-10'
-  },
-  {
-    id: 2,
-    title: 'Responsable Commercial',
-    department: 'Commercial',
-    location: 'Nouakchott',
-    type: 'CDI',
-    experience: '3-5 ans',
-    salary: '150 000 - 200 000 MRU',
-    description: 'Poste stratégique pour développer notre portefeuille clients et nos ventes.',
-    requirements: [
-      'Formation commerciale ou équivalent',
-      'Expérience réussie en vente B2B',
-      'Excellentes capacités relationnelles',
-      'Maîtrise du français et de l\'arabe',
-      'Connaissance du marché mauritanien'
-    ],
-    responsibilities: [
-      'Développer le portefeuille clients',
-      'Négocier et conclure les contrats',
-      'Assurer le suivi client',
-      'Participer aux salons et événements',
-      'Atteindre les objectifs de vente'
-    ],
-    benefits: [
-      'Salaire attractif + commissions',
-      'Véhicule de fonction',
-      'Formation commerciale',
-      'Évolution rapide',
-      'Environnement dynamique'
-    ],
-    urgent: true,
-    posted: '2023-12-08'
-  },
-  {
-    id: 3,
-    title: 'Spécialiste Lutte Antiparasitaire',
-    department: 'Technique',
-    location: 'Nouakchott / Nouadhibou',
-    type: 'CDI',
-    experience: '1-2 ans',
-    salary: 'Selon profil',
-    description: 'Rejoignez notre équipe technique spécialisée dans la lutte antiparasitaire.',
-    requirements: [
-      'Formation en biologie, chimie ou équivalent',
-      'Connaissance des produits phytosanitaires',
-      'Rigueur et respect des procédures',
-      'Capacité d\'adaptation',
-      'Permis de conduire obligatoire'
-    ],
-    responsibilities: [
-      'Réaliser les diagnostics parasitaires',
-      'Appliquer les traitements appropriés',
-      'Conseiller les clients',
-      'Assurer le suivi des interventions',
-      'Respecter la réglementation'
-    ],
-    benefits: [
-      'Formation spécialisée',
-      'Certification professionnelle',
-      'Matériel professionnel',
-      'Déplacements payés',
-      'Évolution technique'
-    ],
-    urgent: false,
-    posted: '2023-12-05'
-  },
-  {
-    id: 4,
-    title: 'Graphiste / Designer',
-    department: 'Communication',
-    location: 'Nouakchott',
-    type: 'CDI',
-    experience: '2-4 ans',
-    salary: '120 000 - 150 000 MRU',
-    description: 'Créatif(ve) pour notre département communication et événementiel.',
-    requirements: [
-      'Formation en design graphique',
-      'Maîtrise Adobe Creative Suite',
-      'Portfolio créatif démontrable',
-      'Sens artistique développé',
-      'Capacité à travailler sous pression'
-    ],
-    responsibilities: [
-      'Créer supports de communication',
-      'Concevoir stands d\'exposition',
-      'Réaliser impressions numériques',
-      'Participer aux projets événementiels',
-      'Maintenir l\'identité visuelle'
-    ],
-    benefits: [
-      'Environnement créatif',
-      'Projets variés',
-      'Matériel professionnel',
-      'Formation continue',
-      'Reconnaissance du travail'
-    ],
-    urgent: false,
-    posted: '2023-12-01'
-  },
-  {
-    id: 5,
-    title: 'Superviseur d\'Équipe',
-    department: 'Management',
-    location: 'Nouakchott',
-    type: 'CDI',
-    experience: '15+ ans',
-    salary: '180 000 - 220 000 MRU',
-    description: 'Poste de management pour encadrer nos équipes opérationnelles.',
-    requirements: [
-      'Expérience significative en management',
-      'Leadership et capacités d\'encadrement',
-      'Connaissance secteur nettoyage',
-      'Excellente communication',
-      'Disponibilité et mobilité'
-    ],
-    responsibilities: [
-      'Encadrer les équipes terrain',
-      'Planifier les interventions',
-      'Contrôler la qualité',
-      'Former les nouveaux collaborateurs',
-      'Assurer la relation client'
-    ],
-    benefits: [
-      'Poste à responsabilités',
-      'Salaire évolutif',
-      'Formation management',
-      'Véhicule de service',
-      'Évolution vers direction'
-    ],
-    urgent: true,
-    posted: '2023-11-28'
-  },
-  {
-    id: 6,
-    title: 'Assistant(e) Administrative',
-    department: 'Administration',
-    location: 'Nouakchott',
-    type: 'CDI',
-    experience: '1-3 ans',
-    salary: '80 000 - 100 000 MRU',
-    description: 'Support administratif pour nos équipes opérationnelles.',
-    requirements: [
-      'Formation administrative ou équivalent',
-      'Maîtrise outils bureautiques',
-      'Rigueur et organisation',
-      'Discrétion professionnelle',
-      'Langues : français, arabe'
-    ],
-    responsibilities: [
-      'Gestion administrative courante',
-      'Accueil téléphonique',
-      'Suivi des dossiers clients',
-      'Préparation des documents',
-      'Support aux équipes'
-    ],
-    benefits: [
-      'Environnement stable',
-      'Horaires réguliers',
-      'Formation bureautique',
-      'Évolution interne',
-      'Ambiance conviviale'
-    ],
-    urgent: false,
-    posted: '2023-11-25'
-  }
-];
-
-const departments = [
-  { name: 'Tous', value: 'all', count: jobOffers.length, icon: '💼' },
-  { name: 'Opérations', value: 'Opérations', count: jobOffers.filter(j => j.department === 'Opérations').length, icon: '🔧' },
-  { name: 'Commercial', value: 'Commercial', count: jobOffers.filter(j => j.department === 'Commercial').length, icon: '📈' },
-  { name: 'Technique', value: 'Technique', count: jobOffers.filter(j => j.department === 'Technique').length, icon: '🔬' },
-  { name: 'Communication', value: 'Communication', count: jobOffers.filter(j => j.department === 'Communication').length, icon: '🎨' },
-  { name: 'Management', value: 'Management', count: jobOffers.filter(j => j.department === 'Management').length, icon: '👥' },
-  { name: 'Administration', value: 'Administration', count: jobOffers.filter(j => j.department === 'Administration').length, icon: '📋' }
-];
+// Icônes pour les départements
+const departmentIcons: Record<string, string> = {
+  'Opérations': '🔧',
+  'Commercial': '📈',
+  'Technique': '🔬',
+  'Communication': '🎨',
+  'Management': '👥',
+  'Administration': '📋',
+};
 
 const benefits = [
   {
@@ -257,11 +58,56 @@ const benefits = [
 ];
 
 export default function CareersPage() {
+  const [jobOffers, setJobOffers] = useState<Career[]>([]);
+  const [loading, setLoading] = useState(true);
   const [selectedDepartment, setSelectedDepartment] = useState('all');
-  const [selectedJob, setSelectedJob] = useState<typeof jobOffers[0] | null>(null);
+  const [selectedJob, setSelectedJob] = useState<Career | null>(null);
+  const [showApplicationForm, setShowApplicationForm] = useState(false);
 
   const parallax1 = useParallax({ speed: 0.3, direction: 'up' });
   const parallax2 = useParallax({ speed: 0.4, direction: 'down' });
+
+  // Récupérer les carrières depuis l'API
+  useEffect(() => {
+    const fetchCareers = async () => {
+      try {
+        const response = await fetch('/api/careers?activeOnly=true');
+        if (response.ok) {
+          const data = await response.json();
+          setJobOffers(data);
+        } else {
+          console.error('Erreur lors du chargement des carrières');
+        }
+      } catch (error) {
+        console.error('Erreur:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCareers();
+  }, []);
+
+  // Calculer les départements dynamiquement
+  const departments = React.useMemo(() => {
+    const deptMap = new Map<string, number>();
+    jobOffers.forEach(job => {
+      const count = deptMap.get(job.department) || 0;
+      deptMap.set(job.department, count + 1);
+    });
+
+    const depts = Array.from(deptMap.entries()).map(([name, count]) => ({
+      name,
+      value: name,
+      count,
+      icon: departmentIcons[name] || '💼'
+    }));
+
+    return [
+      { name: 'Tous', value: 'all', count: jobOffers.length, icon: '💼' },
+      ...depts.sort((a, b) => a.name.localeCompare(b.name))
+    ];
+  }, [jobOffers]);
 
   const filteredJobs = selectedDepartment === 'all' 
     ? jobOffers 
@@ -269,10 +115,21 @@ export default function CareersPage() {
 
   const urgentJobs = jobOffers.filter(job => job.urgent);
 
+  if (loading) {
+    return (
+      <main className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Chargement des offres d'emploi...</p>
+        </div>
+      </main>
+    );
+  }
+
   return (
     <main className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-blue-600 via-blue-700 to-blue-900 text-white py-32 overflow-hidden">
+      <section className="relative bg-gradient-to-br from-blue-600 via-blue-700 to-blue-900 text-white py-16 sm:py-20 md:py-24 lg:py-32 overflow-hidden">
         <ParticlesBackground particleCount={30} color="rgba(255, 255, 255, 0.4)" speed={0.3} />
 
         {/* Decorative Elements */}
@@ -296,7 +153,7 @@ export default function CareersPage() {
         {/* Subtle grid pattern */}
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDM0djItaDJWMzZoLTJ6bTAtNGgydjJoLTJ2LTJ6bTAgNGgydjJoLTJ2LTJ6Ii8+PC9nPjwvZz48L3N2Zz4=')] opacity-30"></div>
 
-        <div className="container-custom relative z-10">
+        <div className="container-custom px-4 sm:px-6 lg:px-8 relative z-10">
           <ScrollAnimateWrapper animation="bounceIn" className="text-center mb-6">
             <div className="inline-flex items-center gap-1.5 bg-black/40 backdrop-blur-md border border-white/40 rounded-full px-4 py-2 shadow-2xl">
               <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse shadow-lg"></span>
@@ -322,7 +179,7 @@ export default function CareersPage() {
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
                 <a
                   href="#offres"
-                  className="inline-flex items-center justify-center bg-white text-blue-600 hover:bg-blue-50 font-semibold py-3 px-6 rounded-lg transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-1 group border-2 border-white text-sm"
+                  className="inline-flex items-center justify-center bg-white text-blue-600 hover:bg-blue-50 font-semibold py-2.5 sm:py-3 px-4 sm:px-5 md:px-6 rounded-lg transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-1 group border-2 border-white text-xs sm:text-sm"
                 >
                   <span className="drop-shadow-sm">Voir les offres</span>
                   <svg className="w-4 h-4 ml-1.5 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -331,7 +188,7 @@ export default function CareersPage() {
                 </a>
                 <a
                   href="#spontanee"
-                  className="inline-flex items-center justify-center border-2 border-white bg-black/30 backdrop-blur-md text-white hover:bg-white hover:text-blue-600 font-semibold py-3 px-6 rounded-lg transition-all duration-300 group shadow-xl hover:shadow-2xl transform hover:-translate-y-1 text-sm"
+                  className="inline-flex items-center justify-center border-2 border-white bg-black/30 backdrop-blur-md text-white hover:bg-white hover:text-blue-600 font-semibold py-2.5 sm:py-3 px-4 sm:px-5 md:px-6 rounded-lg transition-all duration-300 group shadow-xl hover:shadow-2xl transform hover:-translate-y-1 text-xs sm:text-sm"
                 >
                   <span className="drop-shadow-lg">Candidature spontanée</span>
                   <svg className="w-4 h-4 ml-1.5 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -352,8 +209,8 @@ export default function CareersPage() {
       </section>
 
       {/* Company Benefits */}
-      <section className="py-24 bg-white">
-        <div className="container-custom">
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-white">
+        <div className="container-custom px-4 sm:px-6 lg:px-8">
           <ScrollAnimateWrapper animation="revealUp" className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-6">
               Pourquoi Nous Rejoindre ?
@@ -386,8 +243,8 @@ export default function CareersPage() {
 
       {/* Urgent Jobs */}
       {urgentJobs.length > 0 && (
-        <section className="py-24 bg-gradient-to-br from-red-50 to-orange-50">
-          <div className="container-custom">
+        <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-gradient-to-br from-red-50 to-orange-50">
+          <div className="container-custom px-4 sm:px-6 lg:px-8">
             <ScrollAnimateWrapper animation="revealUp" className="text-center mb-16">
               <div className="inline-flex items-center gap-2 bg-red-100 text-red-800 px-4 py-2 rounded-full mb-4">
                 <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
@@ -440,7 +297,13 @@ export default function CareersPage() {
                     
                     <div className="flex items-center justify-between">
                       <span className="text-lg font-bold text-indigo-600">{job.salary}</span>
-                      <button className="bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 text-white font-bold py-3 px-6 rounded-xl transition-all duration-300 transform hover:-translate-y-1">
+                      <button 
+                        onClick={() => {
+                          setSelectedJob(job);
+                          setShowApplicationForm(true);
+                        }}
+                        className="bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 text-white font-bold py-2.5 sm:py-3 px-4 sm:px-5 md:px-6 rounded-xl transition-all duration-300 transform hover:-translate-y-1 text-xs sm:text-sm"
+                      >
                         Postuler Maintenant
                       </button>
                     </div>
@@ -454,7 +317,7 @@ export default function CareersPage() {
 
       {/* Filter Section */}
       <section id="offres" className="py-12 bg-gray-50">
-        <div className="container-custom">
+        <div className="container-custom px-4 sm:px-6 lg:px-8">
           <ScrollAnimateWrapper animation="fadeIn">
             <div className="flex flex-wrap justify-center gap-4">
               {departments.map((dept) => (
@@ -477,10 +340,16 @@ export default function CareersPage() {
       </section>
 
       {/* Jobs Grid */}
-      <section className="py-24 bg-gray-50">
-        <div className="container-custom">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredJobs.filter(job => !job.urgent).map((job, index) => (
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-gray-50">
+        <div className="container-custom px-4 sm:px-6 lg:px-8">
+          {filteredJobs.filter(job => !job.urgent).length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-gray-600 text-lg">Aucune offre d'emploi disponible pour le moment.</p>
+              <p className="text-gray-500 mt-2">Revenez bientôt pour découvrir nos nouvelles opportunités !</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {filteredJobs.filter(job => !job.urgent).map((job, index) => (
               <ScrollAnimateWrapper 
                 key={job.id}
                 animation={index % 3 === 0 ? 'slideInLeft' : index % 3 === 1 ? 'slideInUp' : 'slideInRight'}
@@ -518,14 +387,21 @@ export default function CareersPage() {
                   
                   <div className="flex items-center justify-between">
                     <span className="text-lg font-bold text-indigo-600">{job.salary}</span>
-                    <button className="bg-indigo-100 hover:bg-indigo-200 text-indigo-600 px-4 py-2 rounded-lg font-semibold transition-colors">
-                      Voir détails
+                    <button 
+                      onClick={() => {
+                        setSelectedJob(job);
+                        setShowApplicationForm(true);
+                      }}
+                      className="bg-indigo-100 hover:bg-indigo-200 text-indigo-600 px-4 py-2 rounded-lg font-semibold transition-colors"
+                    >
+                      Postuler
                     </button>
                   </div>
                 </div>
               </ScrollAnimateWrapper>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
@@ -623,15 +499,18 @@ export default function CareersPage() {
               </div>
               
               <div className="flex flex-col sm:flex-row gap-4">
-                <Link
-                  href="/contact"
-                  className="flex-1 bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-700 hover:to-cyan-700 text-white font-bold py-4 px-8 rounded-xl text-center transition-all duration-300"
+                <button
+                  onClick={() => {
+                    setShowApplicationForm(true);
+                    setSelectedJob(null);
+                  }}
+                  className="flex-1 bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-700 hover:to-cyan-700 text-white font-bold py-3 sm:py-4 px-5 sm:px-6 md:px-8 rounded-xl text-center transition-all duration-300 text-sm sm:text-base"
                 >
                   Postuler à ce poste
-                </Link>
+                </button>
                 <button
                   onClick={() => setSelectedJob(null)}
-                  className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-900 font-semibold py-4 px-8 rounded-xl transition-all duration-300"
+                  className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-900 font-semibold py-3 sm:py-4 px-5 sm:px-6 md:px-8 rounded-xl transition-all duration-300 text-sm sm:text-base"
                 >
                   Fermer
                 </button>
@@ -642,10 +521,10 @@ export default function CareersPage() {
       )}
 
       {/* Spontaneous Application */}
-      <section id="spontanee" className="py-24 bg-white relative overflow-hidden">
+      <section id="spontanee" className="py-12 sm:py-16 md:py-20 lg:py-24 bg-white relative overflow-hidden">
         <ParticlesBackground particleCount={40} color="rgba(99, 102, 241, 0.1)" speed={0.3} />
         
-        <div className="container-custom relative z-10">
+        <div className="container-custom px-4 sm:px-6 lg:px-8 relative z-10">
           <ScrollAnimateWrapper animation="zoomRotateIn" className="text-center max-w-4xl mx-auto">
             <div className="bg-gradient-to-br from-indigo-50 to-cyan-50 rounded-2xl p-12">
               <div className="w-16 h-16 bg-gradient-to-br from-indigo-500 to-cyan-600 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -682,7 +561,7 @@ export default function CareersPage() {
               
               <Link
                 href="mailto:rh@eps.mr"
-                className="inline-flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-700 hover:to-cyan-700 text-white font-bold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+                className="inline-flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-700 hover:to-cyan-700 text-white font-bold py-3 sm:py-4 px-5 sm:px-6 md:px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-sm sm:text-base"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -695,10 +574,10 @@ export default function CareersPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-24 bg-gradient-to-r from-indigo-600 to-cyan-700 text-white relative overflow-hidden">
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-gradient-to-r from-indigo-600 to-cyan-700 text-white relative overflow-hidden">
         <ParticlesBackground particleCount={60} color="rgba(255, 255, 255, 0.2)" speed={0.4} />
         
-        <div className="container-custom relative z-10">
+        <div className="container-custom px-4 sm:px-6 lg:px-8 relative z-10">
           <ScrollAnimateWrapper animation="zoomRotateIn" className="text-center">
             <h2 className="text-4xl md:text-5xl font-black mb-6">
               Prêt à Nous Rejoindre ?
@@ -711,7 +590,7 @@ export default function CareersPage() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 href="#offres"
-                className="inline-flex items-center gap-2 bg-white text-indigo-600 hover:bg-indigo-50 font-bold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+                className="inline-flex items-center gap-2 bg-white text-indigo-600 hover:bg-indigo-50 font-bold py-3 sm:py-4 px-5 sm:px-6 md:px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-sm sm:text-base"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m8 0V6a2 2 0 012 2v6a2 2 0 01-2 2H6a2 2 0 01-2-2V8a2 2 0 012-2V6z" />
@@ -720,7 +599,7 @@ export default function CareersPage() {
               </Link>
               <Link
                 href="/contact"
-                className="inline-flex items-center gap-2 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-bold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+                className="inline-flex items-center gap-2 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-bold py-3 sm:py-4 px-5 sm:px-6 md:px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-sm sm:text-base"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
@@ -731,6 +610,21 @@ export default function CareersPage() {
           </ScrollAnimateWrapper>
         </div>
       </section>
+
+      {/* Application Form */}
+      {showApplicationForm && selectedJob && (
+        <JobApplicationForm
+          job={selectedJob}
+          onClose={() => {
+            setShowApplicationForm(false);
+            setSelectedJob(null);
+          }}
+          onSuccess={() => {
+            setShowApplicationForm(false);
+            setSelectedJob(null);
+          }}
+        />
+      )}
     </main>
   );
 }

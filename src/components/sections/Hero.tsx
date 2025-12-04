@@ -60,7 +60,7 @@ export const Hero: React.FC = () => {
   };
 
   return (
-    <section className="relative overflow-hidden flex items-center" style={{ minHeight: 'calc(90vh - 60px)' }}>
+    <section className="relative overflow-hidden flex items-center min-h-[500px] md:min-h-[600px] lg:min-h-[calc(90vh-60px)]">
       {/* Video Background */}
       <div className="absolute inset-0 w-full h-full">
         <video
@@ -167,17 +167,17 @@ export const Hero: React.FC = () => {
       <div className="absolute inset-0 z-10">
         <div 
           ref={parallax1.elementRef}
-          className="absolute top-0 -left-4 w-96 h-96 bg-white/10 rounded-full mix-blend-overlay filter blur-3xl opacity-20 animate-blob"
+          className="absolute top-0 -left-4 w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 bg-white/10 rounded-full mix-blend-overlay filter blur-3xl opacity-20 animate-blob"
           style={{ transform: `translateY(${parallax1.offset.y}px)` }}
         ></div>
         <div 
           ref={parallax2.elementRef}
-          className="absolute top-0 -right-4 w-96 h-96 bg-white/10 rounded-full mix-blend-overlay filter blur-3xl opacity-20 animate-blob animation-delay-2000"
+          className="absolute top-0 -right-4 w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 bg-white/10 rounded-full mix-blend-overlay filter blur-3xl opacity-20 animate-blob animation-delay-2000"
           style={{ transform: `translateY(${parallax2.offset.y}px)` }}
         ></div>
         <div 
           ref={parallax3.elementRef}
-          className="absolute -bottom-8 left-20 w-96 h-96 bg-white/10 rounded-full mix-blend-overlay filter blur-3xl opacity-20 animate-blob animation-delay-4000"
+          className="absolute -bottom-8 left-20 w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 bg-white/10 rounded-full mix-blend-overlay filter blur-3xl opacity-20 animate-blob animation-delay-4000"
           style={{ transform: `translateX(${parallax3.offset.x}px)` }}
         ></div>
       </div>
@@ -195,8 +195,8 @@ export const Hero: React.FC = () => {
       {/* Subtle grid pattern */}
       <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDM0djItaDJWMzZoLTJ6bTAtNGgydjJoLTJ2LTJ6bTAgNGgydjJoLTJ2LTJ6Ii8+PC9nPjwvZz48L3N2Zz4=')] opacity-30"></div>
       
-      <div className="container-custom relative z-20 py-20 lg:py-32 pb-32">
-        <div className="max-w-4xl mx-auto text-center">
+      <div className="container-custom relative z-20 py-12 md:py-20 lg:py-32">
+        <div className="max-w-xs sm:max-w-sm md:max-w-2xl lg:max-w-4xl mx-auto text-center">
           {/* Badge */}
           <ScrollAnimateWrapper animation="bounceIn" className="mb-6">
             <div className="inline-flex items-center gap-1.5 bg-black/40 backdrop-blur-md border border-white/40 rounded-full px-4 py-2 shadow-2xl">
@@ -207,18 +207,18 @@ export const Hero: React.FC = () => {
 
           {/* Main heading */}
           <ScrollAnimateWrapper animation="revealUp" className="mb-4">
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-black text-white leading-tight">
-              <span className="drop-shadow-2xl text-shadow-lg">Nettoyage professionnel &</span>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-white leading-tight">
+              <span className="drop-shadow-2xl text-shadow-lg">EPS – El Baraka</span>
               <span className="block mt-1 text-white drop-shadow-2xl text-shadow-lg">
-                Communication & événementiel
+                Prestation de Services
               </span>
             </h1>
           </ScrollAnimateWrapper>
-          
+
           <ScrollAnimateWrapper animation="fadeInUp" delay="stagger-2" className="mb-8">
-            <div className="bg-black/20 backdrop-blur-sm rounded-xl px-6 py-4 max-w-2xl mx-auto border border-white/20">
-              <p className="text-base md:text-lg text-white font-medium leading-relaxed drop-shadow-xl">
-                Solutions complètes en nettoyage, impression numérique et organisation événementielle pour entreprises, associations et particuliers.
+            <div className="bg-black/20 backdrop-blur-sm rounded-lg sm:rounded-xl px-4 sm:px-6 py-3 sm:py-4 max-w-xs sm:max-w-sm md:max-w-xl lg:max-w-2xl mx-auto border border-white/20">
+              <p className="text-sm sm:text-base md:text-lg text-white font-medium leading-relaxed drop-shadow-xl">
+                Votre partenaire de confiance pour un service professionnel et irréprochable.
               </p>
             </div>
           </ScrollAnimateWrapper>
@@ -254,19 +254,19 @@ export const Hero: React.FC = () => {
                 <svg className="w-4 h-4 text-green-400 group-hover:text-white transition-colors duration-300 drop-shadow-lg" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
-                <span className="text-xs font-medium group-hover:text-white transition-colors duration-300 drop-shadow-lg">Intervention sous 24h</span>
+                <span className="text-xs font-medium group-hover:text-white transition-colors duration-300 drop-shadow-lg">100% mauritanienne</span>
               </div>
               <div className="flex items-center gap-2 group bg-black/30 backdrop-blur-md px-3 py-2 rounded-lg border border-white/20 shadow-lg">
                 <svg className="w-4 h-4 text-green-400 group-hover:text-white transition-colors duration-300 drop-shadow-lg" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
-                <span className="text-xs font-medium group-hover:text-white transition-colors duration-300 drop-shadow-lg">Équipe certifiée</span>
+                <span className="text-xs font-medium group-hover:text-white transition-colors duration-300 drop-shadow-lg">Équipe qualifiée</span>
               </div>
               <div className="flex items-center gap-2 group bg-black/30 backdrop-blur-md px-3 py-2 rounded-lg border border-white/20 shadow-lg">
                 <svg className="w-4 h-4 text-green-400 group-hover:text-white transition-colors duration-300 drop-shadow-lg" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
-                <span className="text-xs font-medium group-hover:text-white transition-colors duration-300 drop-shadow-lg">Satisfaction garantie</span>
+                <span className="text-xs font-medium group-hover:text-white transition-colors duration-300 drop-shadow-lg">Tarifs compétitifs</span>
               </div>
             </div>
           </ScrollAnimateWrapper>

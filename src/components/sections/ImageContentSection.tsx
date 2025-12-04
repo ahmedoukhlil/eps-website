@@ -21,35 +21,35 @@ interface ContentBlock {
 
 const contentBlocks: ContentBlock[] = [
   {
-    title: "Excellence en nettoyage",
-    highlight: "professionnel et innovant",
-    description: "Cette promesse nous la concrétisons chaque jour à travers une organisation optimisée et des expertises ciblées",
-    details: "En effet, EPS - El Baraka Prestations de Service incarne l'excellence en matière de nettoyage professionnel en Mauritanie. Fort de notre expertise reconnue, nous offrons une gamme complète de services haute performance pour tous les secteurs d'activité. Notre approche unique combine expertise locale, standards internationaux et technologies de pointe pour répondre aux exigences des projets les plus ambitieux.",
+    title: "EPS – El Baraka Prestation de Services",
+    highlight: "Votre partenaire de confiance",
+    description: "Entreprise 100% mauritanienne, EPS met son savoir-faire au service de la qualité et de la satisfaction client",
+    details: "Nous intervenons dans trois domaines clés : Nettoyage et entretien professionnels (bureaux, entreprises, zones aéroportuaires), Manutention et assistance aéroportuaire (PMR, bagages), et Communication et organisation d'événements. Grâce à une équipe qualifiée, un matériel haut de gamme et des tarifs compétitifs, EPS vous garantit efficacité, fiabilité et excellence.",
     image: "/images/team-cleaning.png",
     imageAlt: "Équipe professionnelle EPS",
     buttonText: "Découvrir nos services",
     buttonLink: "/services",
   },
   {
-    title: "Des équipes qualifiées",
-    highlight: "à votre service",
-    description: "Un personnel formé et certifié pour garantir la qualité de nos prestations",
-    details: "Nos équipes sont composées de professionnels expérimentés et régulièrement formés aux dernières techniques de nettoyage. Chaque membre de notre personnel est certifié et équipé du matériel le plus moderne pour assurer un service irréprochable. Nous investissons continuellement dans la formation de nos collaborateurs pour maintenir les plus hauts standards de qualité et de sécurité.",
+    title: "La qualité",
+    highlight: "au service de vos ambitions",
+    description: "Une équipe qualifiée, un matériel haut de gamme et des tarifs compétitifs",
+    details: "Pour garantir la qualité et la continuité de nos prestations, EPS met à la disposition de ses clients une équipe d'agents qualifiés, formés aux techniques modernes d'entretien, ainsi que des superviseurs expérimentés chargés du contrôle qualité et du suivi opérationnel sur site. Chaque membre du personnel dispose de compétences avérées dans son domaine d'intervention, assurant ainsi un travail rigoureux, efficace et conforme aux attentes du client.",
     image: "/images/team-work.heic",
     imageAlt: "Personnel qualifié EPS",
     reverse: true,
-    buttonText: "Rencontrer notre équipe",
+    buttonText: "En savoir plus",
     buttonLink: "/about",
   },
   {
-    title: "Produits certifiés",
-    highlight: "et spécialisés par secteur",
-    description: "Des solutions adaptées aux exigences de chaque domaine d'activité",
-    details: "Nous utilisons exclusivement des produits certifiés et adaptés à chaque secteur : produits agréés IATA pour le nettoyage des cabines d'avion, solutions spécifiques certifiées pour le secteur de la restauration, produits conformes aux normes d'hygiène de l'hôtellerie, et gammes hospitalières répondant aux standards sanitaires les plus stricts du secteur de la santé. Cette approche ciblée garantit efficacité, sécurité et conformité réglementaire pour chaque environnement.",
+    title: "Moyens matériels",
+    highlight: "et produits professionnels",
+    description: "Équipement moderne et performant pour des prestations conformes aux standards internationaux",
+    details: "Nous disposons d'un équipement moderne et performant, comprenant autolaveuses et aspirateurs industriels, machines à vapeur et monobrosses, balayeuses mécaniques pour parkings et chaussées, ainsi que chariots de nettoyage ergonomiques et accessoires professionnels. Nous utilisons également des produits professionnels certifiés, adaptés à la nature des surfaces et aux exigences de chaque site. L'ensemble de ces moyens nous permet d'assurer des prestations rapides, fiables et conformes aux standards internationaux de propreté et d'hygiène.",
     image: "/images/nettoyage.png",
-    imageAlt: "Produits certifiés professionnels",
-    buttonText: "Nos certifications",
-    buttonLink: "/about",
+    imageAlt: "Matériel professionnel EPS",
+    buttonText: "Nos prestations",
+    buttonLink: "/services/nettoyage",
   },
 ];
 
@@ -67,12 +67,12 @@ export const ImageContentSection: React.FC = () => {
       <div className="absolute inset-0 pointer-events-none">
         <div 
           ref={parallax1.elementRef}
-          className="absolute top-20 left-10 w-72 h-72 bg-blue-100 rounded-full filter blur-3xl opacity-20 animate-blob"
+          className="absolute top-20 left-10 w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 lg:w-72 lg:h-72 bg-blue-100 rounded-full filter blur-3xl opacity-20 animate-blob"
           style={{ transform: `translateY(${parallax1.offset.y}px)` }}
         ></div>
         <div 
           ref={parallax2.elementRef}
-          className="absolute bottom-20 right-10 w-72 h-72 bg-green-100 rounded-full filter blur-3xl opacity-20 animate-blob animation-delay-2000"
+          className="absolute bottom-20 right-10 w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 lg:w-72 lg:h-72 bg-green-100 rounded-full filter blur-3xl opacity-20 animate-blob animation-delay-2000"
           style={{ transform: `translateY(${parallax2.offset.y}px)` }}
         ></div>
       </div>
@@ -84,7 +84,7 @@ export const ImageContentSection: React.FC = () => {
           return (
           <div
             key={index}
-            className={`grid lg:grid-cols-2 gap-12 items-center mb-32 last:mb-0 ${
+            className={`grid lg:grid-cols-2 gap-6 sm:gap-8 md:gap-10 lg:gap-12 items-center mb-16 sm:mb-20 md:mb-24 lg:mb-32 last:mb-0 ${
               block.reverse ? 'lg:grid-flow-dense' : ''
             }`}
           >
@@ -99,7 +99,7 @@ export const ImageContentSection: React.FC = () => {
               <ScrollAnimateWrapper
                 animation={block.reverse ? "zoomRotateIn" : "flipInX"}
               >
-                <div className="relative h-[500px] lg:h-[600px] rounded-2xl overflow-hidden shadow-2xl group perspective-1000">
+                <div className="relative h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] rounded-xl sm:rounded-2xl overflow-hidden shadow-2xl group perspective-1000">
                   <Image
                     src={block.image}
                     alt={block.imageAlt}
@@ -123,14 +123,14 @@ export const ImageContentSection: React.FC = () => {
               className="space-y-6"
             >
               <div>
-                <h2 className="text-3xl lg:text-5xl font-bold text-gray-900 leading-tight mb-4">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight mb-3 sm:mb-4">
                   "{block.title}{' '}
                   <span className="text-blue-600">{block.highlight}</span>"
                 </h2>
-                <p className="text-xl text-gray-700 font-medium italic mb-6">
+                <p className="text-base sm:text-lg md:text-xl text-gray-700 font-medium italic mb-4 sm:mb-5 md:mb-6">
                   {block.description}
                 </p>
-                <p className="text-gray-600 leading-relaxed text-lg">
+                <p className="text-gray-600 leading-relaxed text-sm sm:text-base md:text-lg">
                   {block.details}
                 </p>
               </div>

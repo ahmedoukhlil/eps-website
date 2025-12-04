@@ -4,6 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { ScrollAnimateWrapper } from '@/components/ScrollAnimateWrapper';
 import { ParticlesBackground } from '@/components/ParticlesBackground';
+import { useParallax } from '@/hooks/useParallax';
 
 const steps = [
   {
@@ -71,59 +72,72 @@ const steps = [
 const stepAnimations: Array<'flipInX' | 'zoomRotateIn' | 'bounceIn' | 'scaleIn' | 'revealUp' | 'fadeInUp'> = ['flipInX', 'zoomRotateIn', 'bounceIn', 'scaleIn', 'revealUp', 'fadeInUp'];
 
 export const ProcessSection: React.FC = () => {
+  const parallax1 = useParallax({ speed: 0.3, direction: 'up' });
+  const parallax2 = useParallax({ speed: 0.4, direction: 'down' });
+
   return (
-    <section className="py-24 bg-gradient-to-b from-white via-purple-50/20 to-white relative overflow-hidden">
+    <section className="py-16 md:py-24 lg:py-32 bg-gradient-to-b from-white via-purple-50/20 to-white relative overflow-hidden">
       {/* Particles Background */}
       <ParticlesBackground particleCount={20} color="rgba(147, 51, 234, 0.2)" speed={0.2} />
       
-      {/* Decorative background */}
-      <div className="absolute inset-0">
-        <div className="absolute top-1/4 left-0 w-96 h-96 bg-purple-100 rounded-full filter blur-3xl opacity-20 animate-blob"></div>
-        <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-blue-100 rounded-full filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
+      {/* Decorative background with parallax */}
+      <div className="absolute inset-0 opacity-30">
+        <div 
+          ref={parallax1.elementRef}
+          className="absolute top-1/4 left-0 w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 bg-purple-100 rounded-full filter blur-3xl opacity-20 animate-blob"
+          style={{ transform: `translateY(${parallax1.offset.y}px)` }}
+        ></div>
+        <div 
+          ref={parallax2.elementRef}
+          className="absolute bottom-1/4 right-0 w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 bg-blue-100 rounded-full filter blur-3xl opacity-20 animate-blob animation-delay-2000"
+          style={{ transform: `translateY(${parallax2.offset.y}px)` }}
+        ></div>
       </div>
 
       <div className="container-custom relative z-10">
-        <ScrollAnimateWrapper className="text-center mb-20" animation="revealUp">
+        <ScrollAnimateWrapper className="text-center mb-16" animation="revealUp">
           <span className="inline-flex items-center gap-2 px-5 py-2 bg-gradient-to-r from-purple-100 to-blue-100 text-purple-700 rounded-full text-sm font-bold mb-6 shadow-sm">
             <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clipRule="evenodd" />
             </svg>
             NOTRE PROCESSUS
           </span>
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black text-gray-900 mb-4 sm:mb-5 md:mb-6 leading-tight">
             Comment ça
             <span className="block mt-2 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
               marche ?
             </span>
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 max-w-xs sm:max-w-sm md:max-w-2xl lg:max-w-3xl mx-auto leading-relaxed">
             Un processus simple et transparent en 6 étapes pour votre tranquillité d'esprit
           </p>
         </ScrollAnimateWrapper>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6 lg:gap-8">
           {steps.map((step, index) => (
             <ScrollAnimateWrapper
               key={index}
               animation={stepAnimations[index % stepAnimations.length]}
               delay={`stagger-${index + 1}`}
-              className="relative bg-white rounded-2xl p-8 shadow-md hover:shadow-2xl transition-all duration-500 border border-gray-200 hover:border-purple-300 group transform hover:-translate-y-2 perspective-1000"
+              className="relative bg-white rounded-lg sm:rounded-xl md:rounded-2xl p-4 sm:p-5 md:p-6 lg:p-8 shadow-md hover:shadow-2xl transition-all duration-500 border border-gray-200 hover:border-purple-300 group transform hover:-translate-y-2 perspective-1000"
             >
               {/* Number Badge */}
-              <div className="absolute -top-5 -left-5 w-16 h-16 bg-gradient-to-br from-purple-500 via-purple-600 to-blue-600 rounded-2xl flex items-center justify-center text-white font-black text-xl shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
+              <div className="absolute -top-3 -left-3 sm:-top-4 sm:-left-4 md:-top-5 md:-left-5 w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 bg-gradient-to-br from-purple-500 via-purple-600 to-blue-600 rounded-lg sm:rounded-xl md:rounded-2xl flex items-center justify-center text-white font-black text-sm sm:text-base md:text-lg lg:text-xl shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
                 {step.number}
               </div>
 
               {/* Icon */}
-              <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-purple-50 to-blue-50 rounded-2xl text-purple-600 mb-6 mt-6 group-hover:bg-gradient-to-br group-hover:from-purple-100 group-hover:to-blue-100 transition-all duration-500">
-                {step.icon}
+              <div className="inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 md:w-[72px] md:h-[72px] lg:w-20 lg:h-20 bg-gradient-to-br from-purple-50 to-blue-50 rounded-lg sm:rounded-xl md:rounded-2xl text-purple-600 mb-3 sm:mb-4 md:mb-5 lg:mb-6 mt-3 sm:mt-4 md:mt-5 lg:mt-6 group-hover:bg-gradient-to-br group-hover:from-purple-100 group-hover:to-blue-100 transition-all duration-500">
+                <div className="[&>svg]:w-6 [&>svg]:h-6 sm:[&>svg]:w-7 sm:[&>svg]:h-7 md:[&>svg]:w-8 md:[&>svg]:h-8">
+                  {step.icon}
+                </div>
               </div>
 
               {/* Content */}
-              <h3 className="text-xl font-bold text-gray-900 mb-4 group-hover:text-purple-600 transition-colors duration-300">
+              <h3 className="text-base sm:text-lg md:text-xl font-bold text-gray-900 mb-2 sm:mb-3 md:mb-4 group-hover:text-purple-600 transition-colors duration-300">
                 {step.title}
               </h3>
-              <p className="text-gray-600 leading-relaxed">
+              <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
                 {step.description}
               </p>
 
@@ -139,11 +153,11 @@ export const ProcessSection: React.FC = () => {
           ))}
         </div>
 
-            <div className="text-center mt-16">
-              <p className="text-gray-600 mb-6">Prêt à commencer votre projet ?</p>
+            <div className="text-center mt-12 sm:mt-14 md:mt-16">
+              <p className="text-sm sm:text-base md:text-lg text-gray-600 mb-4 sm:mb-5 md:mb-6">Prêt à commencer votre projet ?</p>
               <Link
                 href="/contact"
-                className="inline-flex items-center justify-center bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold py-4 px-8 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                className="inline-flex items-center justify-center bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold py-2.5 sm:py-3 px-4 sm:px-5 md:px-6 lg:px-8 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 text-xs sm:text-sm"
               >
                 Obtenir une estimation
                 <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">

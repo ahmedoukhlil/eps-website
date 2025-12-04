@@ -14,26 +14,26 @@ interface TestimonialsProps {
 const fallbackTestimonials: Testimonial[] = [
   {
     id: "1",
-    name: "Ahmed Ould Mohamed",
-    role: "Directeur Général",
-    company: "Centre Commercial Al-Khaima",
-    content: "Un service impeccable ! L'équipe d'EPS a transformé nos locaux commerciaux. Professionnalisme et efficacité au rendez-vous. Nous recommandons vivement leurs services.",
+    name: "",
+    role: "",
+    company: "Afroport",
+    content: "Un service impeccable ! L'équipe d'EPS assure le nettoyage et la manutention de nos installations aéroportuaires avec un professionnalisme remarquable. Leur efficacité et leur réactivité font d'eux un partenaire de confiance pour nos opérations quotidiennes.",
     rating: 5,
   },
   {
     id: "2",
-    name: "Fatima Mint Ali",
-    role: "Responsable d'établissement",
-    company: "École Internationale de Nouakchott",
-    content: "Nous faisons confiance à EPS depuis 3 ans. Leur réactivité et la qualité de leur travail nous permettent de maintenir un environnement sain pour nos élèves.",
+    name: "",
+    role: "",
+    company: "SOMELEC",
+    content: "Nous faisons confiance à EPS pour le nettoyage de nos installations depuis plusieurs années. Leur réactivité et la qualité de leur travail nous permettent de maintenir un environnement professionnel optimal et conforme aux normes.",
     rating: 5,
   },
   {
     id: "3",
-    name: "Mohamed Salem",
-    role: "Gérant",
-    company: "Hôtel Azalai",
-    content: "Service de nettoyage exceptionnel ! L'attention aux détails et le respect des normes d'hygiène font d'EPS un partenaire de choix pour notre établissement hôtelier.",
+    name: "",
+    role: "",
+    company: "SNIM",
+    content: "EPS excelle dans la communication événementielle ! Leur créativité, leur professionnalisme et leur capacité à organiser nos événements avec un design sur mesure font d'eux un partenaire incontournable pour notre communication.",
     rating: 5,
   },
 ];
@@ -57,8 +57,8 @@ export const Testimonials: React.FC<TestimonialsProps> = ({ testimonials = fallb
       
       {/* Decorative background */}
       <div className="absolute inset-0">
-        <div className="absolute top-0 right-1/4 w-96 h-96 bg-green-100 rounded-full filter blur-3xl opacity-20 animate-blob"></div>
-        <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-blue-100 rounded-full filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
+        <div className="absolute top-0 right-1/4 w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 bg-green-100 rounded-full filter blur-3xl opacity-20 animate-blob"></div>
+        <div className="absolute bottom-0 left-1/4 w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 bg-blue-100 rounded-full filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
       </div>
 
       <div className="container-custom relative z-10">
@@ -76,12 +76,12 @@ export const Testimonials: React.FC<TestimonialsProps> = ({ testimonials = fallb
               nos clients
             </span>
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-xs sm:max-w-sm md:max-w-2xl lg:max-w-3xl mx-auto leading-relaxed">
             La satisfaction de nos clients est notre priorité absolue et notre plus grande fierté
           </p>
         </ScrollAnimateWrapper>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8 lg:gap-10">
           {testimonials.map((testimonial, index) => (
             <div
               key={index}
@@ -94,7 +94,7 @@ export const Testimonials: React.FC<TestimonialsProps> = ({ testimonials = fallb
               <ScrollAnimateWrapper
                 animation="bounceIn"
                 delay={`stagger-${index + 1}`}
-                className="relative bg-white rounded-2xl p-8 shadow-md hover:shadow-2xl transition-all duration-500 border border-gray-200 hover:border-green-300 group perspective-1000"
+                className="relative bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 shadow-md hover:shadow-2xl transition-all duration-500 border border-gray-200 hover:border-green-300 group perspective-1000"
               >
               {/* Quote Icon */}
               <div className="absolute top-6 right-6 text-blue-100">
@@ -124,23 +124,21 @@ export const Testimonials: React.FC<TestimonialsProps> = ({ testimonials = fallb
                 "{testimonial.content}"
               </p>
 
-              {/* Author */}
+              {/* Company */}
               <div className="flex items-center">
                 {testimonial.image ? (
                   <img
                     src={testimonial.image}
-                    alt={testimonial.name}
+                    alt={testimonial.company}
                     className="w-12 h-12 rounded-full object-cover mr-4"
                   />
                 ) : (
                   <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center text-white font-bold mr-4">
-                    {testimonial.name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()}
+                    {testimonial.company.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()}
                   </div>
                 )}
                 <div>
-                  <div className="font-bold text-gray-900">{testimonial.name}</div>
-                  <div className="text-sm text-gray-600">{testimonial.role}</div>
-                  <div className="text-sm text-blue-600">{testimonial.company}</div>
+                  <div className="font-bold text-gray-900">{testimonial.company}</div>
                 </div>
               </div>
               </ScrollAnimateWrapper>

@@ -40,3 +40,11 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 NUL
+
+# data files (keep .gitkeep but ignore JSON files)
+/data/*.json
+!/data/.gitkeep
+
+# uploads (keep .gitkeep but ignore uploaded files)
+/public/uploads/cvs/*
+!/public/uploads/.gitkeep
