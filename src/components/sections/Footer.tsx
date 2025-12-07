@@ -3,6 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { SOCIAL } from '@/lib/constants';
 
 const services = [
   { name: 'Nettoyage Professionnel', href: '/services/nettoyage' },
@@ -68,7 +69,9 @@ export const Footer: React.FC = () => {
                 <h5 className="text-sm font-bold text-gray-300 mb-4 uppercase tracking-wider">Suivez-nous</h5>
                 <div className="flex gap-3">
                   <a
-                    href="#"
+                    href={SOCIAL.FACEBOOK}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="group relative w-11 h-11 bg-white/5 backdrop-blur-sm hover:bg-gradient-to-br hover:from-blue-600 hover:to-blue-700 rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-blue-500/50 border border-white/10"
                     aria-label="Facebook"
                   >
@@ -77,7 +80,9 @@ export const Footer: React.FC = () => {
                     </svg>
                   </a>
                   <a
-                    href="#"
+                    href={SOCIAL.LINKEDIN}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="group relative w-11 h-11 bg-white/5 backdrop-blur-sm hover:bg-gradient-to-br hover:from-blue-600 hover:to-blue-800 rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-blue-500/50 border border-white/10"
                     aria-label="LinkedIn"
                   >

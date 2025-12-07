@@ -33,8 +33,8 @@ export const CONTACT = {
 
 // Social media links
 export const SOCIAL = {
-  FACEBOOK: process.env.NEXT_PUBLIC_FACEBOOK_URL || '#',
-  LINKEDIN: process.env.NEXT_PUBLIC_LINKEDIN_URL || '#',
+  FACEBOOK: process.env.NEXT_PUBLIC_FACEBOOK_URL || 'https://www.facebook.com/p/EPS-El-baraka-Prestation-de-Service-100085244981442/?locale=fr_FR',
+  LINKEDIN: process.env.NEXT_PUBLIC_LINKEDIN_URL || 'https://mr.linkedin.com/company/eps-2019',
   TWITTER: process.env.NEXT_PUBLIC_TWITTER_URL || '#',
   INSTAGRAM: process.env.NEXT_PUBLIC_INSTAGRAM_URL || '#',
 } as const;
