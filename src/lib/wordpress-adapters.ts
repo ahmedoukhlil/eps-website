@@ -12,6 +12,7 @@ import {
   WPTeamMember,
   WPJob,
   WordPressMedia,
+  WordPressPost,
   fetchMedia,
 } from './wordpress';
 
@@ -240,4 +241,124 @@ export async function convertAllTeamMembers(wpMembers: WPTeamMember[]): Promise<
 
 export function convertAllJobs(wpJobs: WPJob[]): JobPosting[] {
   return wpJobs.map(convertWPJobToJobPosting);
+}
+
+// ============================================
+// Conversion des Posts (Actualités)
+// ============================================
+
+export interface NewsArticle {
+  id: number;
+  title: string;
+  slug: string;
+  excerpt: string;
+  content: string;
+  image: string;
+  category: string;
+  date: string;
+  readTime: string;
+  featured: boolean;
+  author?: string;
+  tags?: string[];
+}
+
+export async function convertWPPostToNewsArticle(
+  wpPost: WordPressPost,
+  categoriesMap?: Map<number, string>
+): Promise<NewsArticle> {
+  let imageUrl = '/images/services/nettoyage.jpg'; // Image par défaut
+
+  // Récupérer l'image mise en avant depuis _embedded (plus rapide)
+  if (wpPost._embedded?.['wp:featuredmedia']?.[0]) {
+    const embeddedMedia = wpPost._embedded['wp:featuredmedia'][0];
+    // Utiliser la taille large si disponible, sinon medium, sinon source_url
+    imageUrl = embeddedMedia.media_details?.sizes?.large?.source_url ||
+               embeddedMedia.media_details?.sizes?.medium?.source_url ||
+               embeddedMedia.source_url;
+  } else if (wpPost.featured_media) {
+    // Fallback : récupérer via fetchMedia si _embed n'est pas disponible
+    const media = await fetchMedia(wpPost.featured_media);
+    if (media) {
+      imageUrl = media.source_url;
+    }
+  }
+
+  // Extraire la catégorie (première catégorie disponible)
+  let category = 'Actualités';
+  if (wpPost.categories && wpPost.categories.length > 0 && categoriesMap) {
+    const categoryId = wpPost.categories[0];
+    category = categoriesMap.get(categoryId) || 'Actualités';
+  }
+
+  // Calculer le temps de lecture approximatif (250 mots par minute)
+  const wordCount = wpPost.content.rendered.replace(/<[^>]*>/g, '').split(/\s+/).length;
+  const readTime = Math.max(1, Math.ceil(wordCount / 250));
+
+  // Extraire l'excerpt (ou générer depuis le contenu)
+  const excerpt = wpPost.excerpt.rendered 
+    ? wpPost.excerpt.rendered.replace(/<[^>]*>/g, '').trim()
+    : wpPost.content.rendered.replace(/<[^>]*>/g, '').substring(0, 150).trim() + '...';
+
+  // Déterminer si l'article est featured (via ACF ou sticky)
+  const featured = wpPost.acf?.featured === true || wpPost.acf?.sticky === true || false;
+
+  return {
+    id: wpPost.id,
+    title: wpPost.title.rendered,
+    slug: wpPost.slug,
+    excerpt: excerpt || 'Découvrez cette actualité...',
+    content: wpPost.content.rendered,
+    image: imageUrl,
+    category: category,
+    date: wpPost.date,
+    readTime: `${readTime} min`,
+    featured: featured,
+    author: wpPost.acf?.author || 'EPS',
+    tags: wpPost.tags?.map(String) || [],
+  };
+}
+
+export async function convertAllPosts(
+  wpPosts: WordPressPost[],
+  categoriesMap?: Map<number, string>
+): Promise<NewsArticle[]> {
+  return Promise.all(wpPosts.map(post => convertWPPostToNewsArticle(post, categoriesMap)));
+}
+
+// ============================================
+// Conversion des Images de Galerie
+// ============================================
+
+export interface GalleryImage {
+  id: number;
+  src: string;
+  alt: string;
+  category: string;
+  title?: string;
+  caption?: string;
+}
+
+export function convertWPMediaToGalleryImage(
+  wpMedia: WordPressMedia,
+  category: string = 'Galerie'
+): GalleryImage {
+  return {
+    id: wpMedia.id,
+    src: wpMedia.source_url,
+    alt: wpMedia.alt_text || 'Image EPS',
+    category: category,
+    title: wpMedia.caption?.rendered || undefined,
+    caption: wpMedia.caption?.rendered || undefined,
+  };
+}
+
+export function convertAllMediaToGallery(
+  wpMedia: WordPressMedia[],
+  categoryMap?: Map<number, string>
+): GalleryImage[] {
+  return wpMedia.map(media => {
+    // Essayer de déterminer la catégorie depuis les métadonnées ou utiliser une valeur par défaut
+    const category = categoryMap?.get(media.id) || 'Galerie';
+    return convertWPMediaToGalleryImage(media, category);
+  });
 }

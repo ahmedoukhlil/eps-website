@@ -61,6 +61,9 @@ export const Hero: React.FC = () => {
 
   return (
     <section className="relative overflow-hidden flex items-center min-h-[500px] md:min-h-[600px] lg:min-h-[calc(90vh-60px)]">
+      {/* Background gradient de base (toujours visible) */}
+      <div className="absolute inset-0 w-full h-full bg-gradient-to-br from-blue-600 via-blue-700 to-blue-900"></div>
+      
       {/* Video Background */}
       <div className="absolute inset-0 w-full h-full">
         <video
@@ -79,7 +82,7 @@ export const Hero: React.FC = () => {
             console.log('📁 Chemin recherché: /videos/1080p.mp4');
           }}
           onLoadStart={() => {
-            console.log('🎬 Chargement de la vidéo (5.69MB)...');
+            console.log('🎬 Chargement de la vidéo...');
             console.log('📁 Depuis: /videos/1080p.mp4');
           }}
           onCanPlay={() => {
@@ -121,7 +124,7 @@ export const Hero: React.FC = () => {
                   </svg>
                 </div>
                 <p className="text-lg font-medium">Cliquez pour lire la vidéo</p>
-                <p className="text-sm opacity-75">Vidéo prête (5.69MB)</p>
+                <p className="text-sm opacity-75">Vidéo prête</p>
               </div>
             </div>
           </div>

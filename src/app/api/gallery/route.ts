@@ -1,29 +1,35 @@
 import { NextRequest, NextResponse } from 'next/server';
-import {
-  getGalleryImages,
-  getGalleryImage,
-  createGalleryImage,
-  updateGalleryImage,
-  deleteGalleryImage,
-  GalleryImage,
-} from '@/lib/data-storage';
+import { fetchAllMedia, fetchMedia } from '@/lib/wordpress';
+import { convertAllMediaToGallery, convertWPMediaToGalleryImage, GalleryImage } from '@/lib/wordpress-adapters';
 
-// GET - Récupérer toutes les images ou une image spécifique
+// GET - Récupérer toutes les images ou une image spécifique depuis WordPress
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams;
     const id = searchParams.get('id');
     const category = searchParams.get('category');
+    const limit = searchParams.get('limit') ? parseInt(searchParams.get('limit')!) : undefined;
 
+    // Récupérer une image spécifique par ID
     if (id) {
-      const image = getGalleryImage(Number(id));
-      if (!image) {
+      const wpMedia = await fetchMedia(Number(id));
+      if (!wpMedia) {
         return NextResponse.json({ error: 'Image non trouvée' }, { status: 404 });
       }
+      
+      const image = convertWPMediaToGalleryImage(wpMedia);
       return NextResponse.json(image);
     }
 
-    let images = getGalleryImages();
+    // Récupérer toutes les images
+    const wpMedia = await fetchAllMedia(limit);
+    
+    if (!wpMedia || wpMedia.length === 0) {
+      return NextResponse.json([]);
+    }
+
+    // Convertir les médias WordPress en images de galerie
+    let images = convertAllMediaToGallery(wpMedia);
     
     // Filtrer par catégorie si fourni
     if (category) {
@@ -37,59 +43,28 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// POST - Créer une nouvelle entrée d'image
+// POST, PUT, DELETE - Les opérations de création/modification/suppression
+// doivent être effectuées directement dans WordPress via l'interface d'administration
+// Les images doivent être uploadées dans la médiathèque WordPress
+
 export async function POST(request: NextRequest) {
-  try {
-    const body = await request.json();
-    const image = createGalleryImage(body);
-    return NextResponse.json(image, { status: 201 });
-  } catch (error) {
-    console.error('Erreur POST /api/gallery:', error);
-    return NextResponse.json({ error: 'Erreur lors de la création' }, { status: 500 });
-  }
+  return NextResponse.json({ 
+    error: 'Les images doivent être uploadées directement dans WordPress',
+    message: 'Utilisez l\'interface WordPress (Médiathèque) pour ajouter/modifier/supprimer des images'
+  }, { status: 405 });
 }
 
-// PUT - Mettre à jour une image
 export async function PUT(request: NextRequest) {
-  try {
-    const body = await request.json();
-    const { id, ...updates } = body;
-
-    if (!id) {
-      return NextResponse.json({ error: 'ID requis' }, { status: 400 });
-    }
-
-    const updated = updateGalleryImage(id, updates);
-    if (!updated) {
-      return NextResponse.json({ error: 'Image non trouvée' }, { status: 404 });
-    }
-
-    return NextResponse.json(updated);
-  } catch (error) {
-    console.error('Erreur PUT /api/gallery:', error);
-    return NextResponse.json({ error: 'Erreur lors de la mise à jour' }, { status: 500 });
-  }
+  return NextResponse.json({ 
+    error: 'Les images doivent être modifiées directement dans WordPress',
+    message: 'Utilisez l\'interface WordPress (Médiathèque) pour ajouter/modifier/supprimer des images'
+  }, { status: 405 });
 }
 
-// DELETE - Supprimer une image
 export async function DELETE(request: NextRequest) {
-  try {
-    const searchParams = request.nextUrl.searchParams;
-    const id = searchParams.get('id');
-
-    if (!id) {
-      return NextResponse.json({ error: 'ID requis' }, { status: 400 });
-    }
-
-    const deleted = deleteGalleryImage(Number(id));
-    if (!deleted) {
-      return NextResponse.json({ error: 'Image non trouvée' }, { status: 404 });
-    }
-
-    return NextResponse.json({ success: true });
-  } catch (error) {
-    console.error('Erreur DELETE /api/gallery:', error);
-    return NextResponse.json({ error: 'Erreur lors de la suppression' }, { status: 500 });
-  }
+  return NextResponse.json({ 
+    error: 'Les images doivent être supprimées directement dans WordPress',
+    message: 'Utilisez l\'interface WordPress (Médiathèque) pour ajouter/modifier/supprimer des images'
+  }, { status: 405 });
 }
 

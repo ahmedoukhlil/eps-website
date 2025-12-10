@@ -1,41 +1,57 @@
 import { NextRequest, NextResponse } from 'next/server';
-import {
-  getNews,
-  getNewsArticle,
-  getNewsArticleBySlug,
-  createNewsArticle,
-  updateNewsArticle,
-  deleteNewsArticle,
-  NewsArticle,
-} from '@/lib/data-storage';
+import { fetchPosts, fetchPost, fetchCategories } from '@/lib/wordpress';
+import { convertAllPosts, convertWPPostToNewsArticle, NewsArticle } from '@/lib/wordpress-adapters';
 
-// GET - Récupérer toutes les actualités ou une actualité spécifique
+// GET - Récupérer toutes les actualités ou une actualité spécifique depuis WordPress
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams;
     const id = searchParams.get('id');
     const slug = searchParams.get('slug');
-
-    if (id) {
-      const article = getNewsArticle(Number(id));
-      if (!article) {
-        return NextResponse.json({ error: 'Article non trouvé' }, { status: 404 });
-      }
-      return NextResponse.json(article);
-    }
-
-    if (slug) {
-      const article = getNewsArticleBySlug(slug);
-      if (!article) {
-        return NextResponse.json({ error: 'Article non trouvé' }, { status: 404 });
-      }
-      return NextResponse.json(article);
-    }
-
-    const news = getNews();
-    // Filtrer uniquement les articles publiés pour l'API publique
+    const limit = searchParams.get('limit') ? parseInt(searchParams.get('limit')!) : undefined;
     const publishedOnly = searchParams.get('publishedOnly') === 'true';
-    const filtered = publishedOnly ? news.filter(n => n.published !== false) : news;
+
+    // Récupérer une actualité spécifique par slug
+    if (slug) {
+      const wpPost = await fetchPost(slug);
+      if (!wpPost) {
+        return NextResponse.json({ error: 'Article non trouvé' }, { status: 404 });
+      }
+      
+      const wpCategories = await fetchCategories();
+      const categoriesMap = new Map<number, string>();
+      if (wpCategories) {
+        wpCategories.forEach(cat => {
+          categoriesMap.set(cat.id, cat.name);
+        });
+      }
+      
+      const article = await convertWPPostToNewsArticle(wpPost, categoriesMap);
+      return NextResponse.json(article);
+    }
+
+    // Récupérer toutes les actualités
+    const wpPosts = await fetchPosts(limit);
+    
+    if (!wpPosts || wpPosts.length === 0) {
+      return NextResponse.json([]);
+    }
+
+    // Récupérer les catégories pour mapper les IDs aux noms
+    const wpCategories = await fetchCategories();
+    const categoriesMap = new Map<number, string>();
+    if (wpCategories) {
+      wpCategories.forEach(cat => {
+        categoriesMap.set(cat.id, cat.name);
+      });
+    }
+
+    // Convertir les posts WordPress en articles
+    const articles = await convertAllPosts(wpPosts, categoriesMap);
+    
+    // Filtrer uniquement les articles publiés si demandé
+    // Note: WordPress gère déjà la publication, donc tous les posts récupérés sont publiés
+    const filtered = publishedOnly ? articles.filter(a => a.featured !== false) : articles;
     
     return NextResponse.json(filtered);
   } catch (error) {
@@ -44,59 +60,28 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// POST - Créer un nouvel article
+// POST, PUT, DELETE - Les opérations de création/modification/suppression
+// doivent être effectuées directement dans WordPress via l'interface d'administration
+// ou via l'API WordPress avec authentification
+
 export async function POST(request: NextRequest) {
-  try {
-    const body = await request.json();
-    const article = createNewsArticle(body);
-    return NextResponse.json(article, { status: 201 });
-  } catch (error) {
-    console.error('Erreur POST /api/news:', error);
-    return NextResponse.json({ error: 'Erreur lors de la création' }, { status: 500 });
-  }
+  return NextResponse.json({ 
+    error: 'Les articles doivent être créés directement dans WordPress',
+    message: 'Utilisez l\'interface WordPress pour créer/modifier/supprimer des articles'
+  }, { status: 405 });
 }
 
-// PUT - Mettre à jour un article
 export async function PUT(request: NextRequest) {
-  try {
-    const body = await request.json();
-    const { id, ...updates } = body;
-
-    if (!id) {
-      return NextResponse.json({ error: 'ID requis' }, { status: 400 });
-    }
-
-    const updated = updateNewsArticle(id, updates);
-    if (!updated) {
-      return NextResponse.json({ error: 'Article non trouvé' }, { status: 404 });
-    }
-
-    return NextResponse.json(updated);
-  } catch (error) {
-    console.error('Erreur PUT /api/news:', error);
-    return NextResponse.json({ error: 'Erreur lors de la mise à jour' }, { status: 500 });
-  }
+  return NextResponse.json({ 
+    error: 'Les articles doivent être modifiés directement dans WordPress',
+    message: 'Utilisez l\'interface WordPress pour créer/modifier/supprimer des articles'
+  }, { status: 405 });
 }
 
-// DELETE - Supprimer un article
 export async function DELETE(request: NextRequest) {
-  try {
-    const searchParams = request.nextUrl.searchParams;
-    const id = searchParams.get('id');
-
-    if (!id) {
-      return NextResponse.json({ error: 'ID requis' }, { status: 400 });
-    }
-
-    const deleted = deleteNewsArticle(Number(id));
-    if (!deleted) {
-      return NextResponse.json({ error: 'Article non trouvé' }, { status: 404 });
-    }
-
-    return NextResponse.json({ success: true });
-  } catch (error) {
-    console.error('Erreur DELETE /api/news:', error);
-    return NextResponse.json({ error: 'Erreur lors de la suppression' }, { status: 500 });
-  }
+  return NextResponse.json({ 
+    error: 'Les articles doivent être supprimés directement dans WordPress',
+    message: 'Utilisez l\'interface WordPress pour créer/modifier/supprimer des articles'
+  }, { status: 405 });
 }
 

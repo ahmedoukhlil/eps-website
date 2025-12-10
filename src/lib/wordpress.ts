@@ -3,7 +3,16 @@
  * Gérer tous les contenus du site via WordPress REST API
  */
 
+// ============================================
+// Configuration WordPress
+// ============================================
+
+// DÉSACTIVER WORDPRESS TEMPORAIREMENT
+// Mettez cette variable à 'true' pour activer WordPress
+const WORDPRESS_ENABLED = process.env.NEXT_PUBLIC_WORDPRESS_ENABLED === 'true';
+
 export const WORDPRESS_CONFIG = {
+  enabled: WORDPRESS_ENABLED,
   apiUrl: process.env.NEXT_PUBLIC_WORDPRESS_URL || 'https://cms.eps-mauritanie.com/wp-json/wp/v2',
   authUrl: process.env.NEXT_PUBLIC_WORDPRESS_AUTH_URL || 'https://cms.eps-mauritanie.com/wp-json/jwt-auth/v1',
   username: process.env.WORDPRESS_USERNAME || '',
@@ -32,6 +41,19 @@ export interface WordPressPost {
   categories: number[];
   tags: number[];
   acf?: Record<string, any>; // Advanced Custom Fields
+  _embedded?: {
+    'wp:featuredmedia'?: Array<{
+      source_url: string;
+      alt_text: string;
+      media_details?: {
+        sizes?: {
+          medium?: { source_url: string };
+          large?: { source_url: string };
+          full?: { source_url: string };
+        };
+      };
+    }>;
+  };
 }
 
 export interface WordPressMedia {
@@ -239,6 +261,12 @@ async function fetchFromWordPress<T>(
   endpoint: string,
   options?: RequestInit
 ): Promise<T | null> {
+  // Si WordPress est désactivé, retourner null immédiatement
+  if (!WORDPRESS_CONFIG.enabled) {
+    console.log(`[WordPress désactivé] Requête ignorée: ${endpoint}`);
+    return null;
+  }
+
   try {
     const url = `${WORDPRESS_CONFIG.apiUrl}/${endpoint}`;
     const response = await fetch(url, {
@@ -261,8 +289,11 @@ async function fetchFromWordPress<T>(
 // Fonctions pour les Posts (Actualités)
 // ============================================
 
-export const fetchPosts = async (): Promise<WordPressPost[]> => {
-  const posts = await fetchFromWordPress<WordPressPost[]>('posts?_embed');
+export const fetchPosts = async (limit?: number): Promise<WordPressPost[]> => {
+  const endpoint = limit 
+    ? `posts?_embed&per_page=${limit}&orderby=date&order=desc`
+    : 'posts?_embed&orderby=date&order=desc';
+  const posts = await fetchFromWordPress<WordPressPost[]>(endpoint);
   return posts || [];
 };
 
@@ -375,4 +406,16 @@ export const fetchCategories = async (): Promise<WordPressCategory[]> => {
 
 export const fetchMedia = async (id: number): Promise<WordPressMedia | null> => {
   return await fetchFromWordPress<WordPressMedia>(`media/${id}`);
+};
+
+/**
+ * Récupérer toutes les images de la médiathèque WordPress
+ * Utile pour la galerie
+ */
+export const fetchAllMedia = async (limit?: number): Promise<WordPressMedia[]> => {
+  const endpoint = limit 
+    ? `media?per_page=${limit}&media_type=image&orderby=date&order=desc`
+    : 'media?media_type=image&orderby=date&order=desc';
+  const media = await fetchFromWordPress<WordPressMedia[]>(endpoint);
+  return media || [];
 };

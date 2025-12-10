@@ -3,47 +3,55 @@
 import React from 'react';
 import Image from 'next/image';
 import { ScrollAnimateWrapper } from '@/components/ScrollAnimateWrapper';
+import { GalleryImage } from '@/lib/wordpress-adapters';
 
-interface GalleryImage {
-  src: string;
-  alt: string;
-  category: string;
-}
-
-const galleryImages: GalleryImage[] = [
+// Données de fallback si WordPress n'est pas configuré
+const fallbackGalleryImages: GalleryImage[] = [
   {
+    id: 1,
     src: "/images/gallery/cleaning-office-1.jpg",
     alt: "Nettoyage de bureaux professionnels",
     category: "Bureaux",
   },
   {
+    id: 2,
     src: "/images/gallery/cleaning-hospital.jpg",
     alt: "Nettoyage hospitalier",
     category: "Santé",
   },
   {
+    id: 3,
     src: "/images/gallery/cleaning-restaurant.jpg",
     alt: "Nettoyage de restaurant",
     category: "Restauration",
   },
   {
+    id: 4,
     src: "/images/gallery/cleaning-school.jpg",
     alt: "Nettoyage d'école",
     category: "Éducation",
   },
   {
+    id: 5,
     src: "/images/gallery/cleaning-industrial.jpg",
     alt: "Nettoyage industriel",
     category: "Industrie",
   },
   {
+    id: 6,
     src: "/images/gallery/cleaning-hotel.jpg",
     alt: "Nettoyage d'hôtel",
     category: "Hôtellerie",
   },
 ];
 
-export const PhotoGallery: React.FC = () => {
+interface PhotoGalleryProps {
+  images?: GalleryImage[];
+}
+
+export const PhotoGallery: React.FC<PhotoGalleryProps> = ({ images }) => {
+  // Utiliser les images WordPress si disponibles, sinon utiliser les données de fallback
+  const galleryImages = images && images.length > 0 ? images : fallbackGalleryImages;
   return (
     <section className="py-20 bg-gradient-to-b from-white to-gray-50">
       <div className="container-custom">
@@ -62,7 +70,7 @@ export const PhotoGallery: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {galleryImages.map((image, index) => (
             <ScrollAnimateWrapper
-              key={index}
+              key={image.id || index}
               animation="scaleIn"
               delay={`stagger-${index + 1}`}
               className="group relative h-80 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300"
